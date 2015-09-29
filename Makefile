@@ -1,25 +1,20 @@
-# -Wall -save-temps -Wshadow -fmudflap
-CC=gcc
-CFLAGS=-pipe -m64 -ansi -fPIC -g -O3 -fno-exceptions -fstack-protector -fvisibility=hidden -W -Wall -Wno-unused-parameter -Wno-unused-function -Wno-unused-label -Wpointer-arith -Wformat -Wreturn-type -Wsign-compare -Wmultichar -Wformat-nonliteral -Winit-self -Wuninitialized -Wno-deprecated -Wformat-security -Werror -std=gnu99 -c
-LDFLAGS=
-CPATH=/usr/local/include
+SRC=./src
+TEST=./test/
 
-SOURCES=src/main.c
-TESTS=test/main.c
-OBJECTS=$(SOURCES:.c=.o)
-EXECUTABLE=bin/cslp
+all:
+	$(MAKE) -C $(SRC)
 
+tests:
+	$(MAKE) -C $(TEST)
 
-all: $(SOURCES) $(EXECUTABLE)
+r: all
+	./bin/cslp
 
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+t: tests
+	./bin/cslp-test
 
-.c.o:
-	CPATH=$(CPATH) $(CC) $(CFLAGS) $< -o $@
-
-test: $(TESTS)
+build: all test
 
 clean:
-	rm $(EXECUTABLE)
-	rm src/*.o
+	$(MAKE) -C $(SRC) clean
+	$(MAKE) -C $(TEST) clean
