@@ -1,1 +1,1 @@
-../src/read_file.c
+read_file.c
