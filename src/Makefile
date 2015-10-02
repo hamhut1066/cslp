@@ -16,10 +16,6 @@ $(EXECUTABLE): $(OBJECTS)
 .c.o:
 	CPATH=$(CPATH) $(CC) $(CFLAGS) $< -o $@
 
-test: $(TESTS)
-	echo $<
-	echo $@
-
 clean:
 	rm $(EXECUTABLE) || true
 	rm *.o || true

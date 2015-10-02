@@ -5,13 +5,21 @@ LDFLAGS=
 
 CPATH="../lib/cutest/"
 LIBRARY_SOURCES=../lib/cutest/CuTest.c
-SOURCES=AllTests.c StrUtil.c
+SOURCES= \
+../src/read_file.c \
+\
+StrUtil.c \
+AllTests.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=../bin/cslp-test
 
+all: $(SOURCES) $(EXECUTABLE)
 
-$(EXECUTABLE):
-	CPATH=$(CPATH) $(CC) $(CFLAGS) $(LIBRARY_SOURCES) $(SOURCES) -o $(EXECUTABLE)
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+
+.c.o:
+	CPATH=$(CPATH) $(CC) $(CFLAGS) $< -o $@
 
 clean:
 	rm $(EXECUTABLE) || true

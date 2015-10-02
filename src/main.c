@@ -1,12 +1,17 @@
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
-
 #include <stdio.h>
 
-static void null_test_success(int state) {
+#include "read_file.h"
+
+void usage() {
+  printf("Usage: cslp [filename]\n");
 }
-int main(void) {
-  null_test_success(2);
+
+int main(int argc, char *argv[]) {
+  if (argc < 2) {
+    usage();
+    return 0;
+  }
+
   return 0;
+  // return read_config_file(argv);
 }
