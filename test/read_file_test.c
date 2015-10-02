@@ -5,8 +5,13 @@
 #include "../src/read_file.h"
 
 void read_file_test(CuTest *tc) {
- CuAssertStrEquals(tc, "b", "b");
- CuAssertStrEquals(tc, "a", "b");
+  char *test_input[] = {"this", "is", "a", "test", "file"};
+  char **buffer = read_config_file("./test/fs/file.in");
+  int i = 0;
+  while (buffer[i] != '\0') {
+    CuAssertStrEquals(tc, test_input[i], buffer[i]);
+    i++;
+  }
 }
 
 

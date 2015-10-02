@@ -1,5 +1,7 @@
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <err.h>
 
 #include "read_file.h"
 
@@ -7,14 +9,26 @@ char test_char(void) {
   return 'a';
 }
 
-int read_config_file(char* filename) {
-  char buf[256];
-  while (fgets (buf, sizeof(buf), stdin)) {
-    printf("line: %s", buf);
+char **read_config_file(char* filename) {
+
+  char **buffer = malloc(50 * sizeof(char*));
+  FILE *f;
+  size_t len;
+  char *line;
+  int i = 0;
+
+  f = fopen(filename, "r");
+  if (f == NULL) {
+    err(1, "%s", filename);
   }
-  if (ferror(stdin)) {
-    fprintf(stderr, "Opps, error reading stdin\n");
-    abort();
+
+  while ((line = fgetln(f, &len))) {
+    buffer[i] = malloc(sizeof(char) * (len - 1));
+    strncpy(buffer[i], line, len - 1);
+    i++;
   }
-  return 0;
+  if (!feof(f)) {
+    err(1, "fgetln: <%s>", filename);
+  }
+  return buffer;
 }
