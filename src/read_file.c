@@ -2,9 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <err.h>
-
 #include "read_file.h"
 
+#ifndef __APPLE__
+#include "compat.h"
+#endif
 char test_char(void) {
   return 'a';
 }

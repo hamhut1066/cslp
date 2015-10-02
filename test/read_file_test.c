@@ -12,6 +12,7 @@ void read_file_test(CuTest *tc) {
     CuAssertStrEquals(tc, test_input[i], buffer[i]);
     i++;
   }
+  // free(buffer);
 }
 
 
