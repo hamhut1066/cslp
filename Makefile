@@ -5,12 +5,14 @@ all:
 	$(MAKE) -C $(SRC)
 
 tests:
-	$(MAKE) -C $(TEST)
 
 r: all
 	./bin/cslp
 
-t: tests
+t:
+	$(MAKE) -C $(TEST)
+
+tt: t
 	./bin/cslp-test
 
 build: all test
