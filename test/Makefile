@@ -6,7 +6,7 @@ LDFLAGS=
 CPATH="../lib/cutest/"
 SOURCES= \
 $(shell cat ../deps.txt) \
-$(shell cat ../src/files.txt) \
+../src/$(shell cat ../src/files.txt) \
 $(shell cat files.txt)
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=../bin/cslp-test
