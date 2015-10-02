@@ -1,13 +1,14 @@
 #include "CuTest.h"
 #include <stdio.h>
 
-CuSuite* StrUtilGetSuite();
+#include "read_file_test.h"
 
 void RunAllTests(void) {
   CuString *output = CuStringNew();
   CuSuite* suite = CuSuiteNew();
 
-  CuSuiteAddSuite(suite, StrUtilGetSuite());
+  /* new tests here */
+  CuSuiteAddSuite(suite, ReadFileGetSuite());
 
   CuSuiteRun(suite);
   CuSuiteSummary(suite, output);

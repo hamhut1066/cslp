@@ -1,9 +1,17 @@
 /* Tested file */
+#include "CuTest.h"
+#include <string.h>
+
 #include "../src/read_file.h"
 
-void test_method(void) {
+void read_file_test(CuTest *tc) {
+ CuAssertStrEquals(tc, "b", "b");
+ CuAssertStrEquals(tc, "a", "b");
 }
 
-int main(void) {
-  return 0;
+
+CuSuite* ReadFileGetSuite() {
+  CuSuite* suite = CuSuiteNew();
+  SUITE_ADD_TEST(suite, read_file_test);
+  return suite;
 }

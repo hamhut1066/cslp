@@ -1,6 +1,7 @@
 #ifndef READ_FILE_TEST_H_
 #define READ_FILE_TEST_H_
+#include "CuTest.h"
 
-void test_method(void);
+CuSuite* ReadFileGetSuite(void);
 
 #endif
