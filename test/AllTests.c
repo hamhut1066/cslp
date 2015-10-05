@@ -1,5 +1,6 @@
 #include "CuTest.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "read_file_test.h"
 
@@ -14,6 +15,9 @@ void RunAllTests(void) {
   CuSuiteSummary(suite, output);
   CuSuiteDetails(suite, output);
   printf("%s", output->buffer);
+
+  free(output);
+  free(suite);
 }
 
 int main(void) {
