@@ -4,33 +4,41 @@
 #include <err.h>
 #include "read_file.h"
 
-#ifndef __APPLE__
-#include "compat.h"
-#endif
-char test_char(void) {
-  return 'a';
-}
+void **read_config_file(char *buffer[], char* filename) {
 
-char **read_config_file(char* filename) {
-
-  char **buffer = malloc(50 * sizeof(char*));
   FILE *f;
-  size_t len;
-  char *line;
+  int char_code;
   int i = 0;
-
+  int j = 0;
+  char line[100];
   f = fopen(filename, "r");
+
   if (f == NULL) {
     err(1, "%s", filename);
   }
 
-  while ((line = fgetln(f, &len))) {
-    buffer[i] = malloc(sizeof(char) * (len - 1));
-    strncpy(buffer[i], line, len - 1);
-    i++;
+  while ((char_code = fgetc(f)) != EOF) {
+    char c = (char) char_code;
+    line[j] = c;
+
+    if(c == '\n') {
+      // clear newline;
+      line[j] = '\0';
+
+      int len = strlen(line);
+      buffer[i] = calloc((len + 1), sizeof(char));
+      buffer[i] = strcpy(buffer[i], line);
+      line[0] = '\0';
+      j = 0;
+      i++;
+    } else {
+      line[j] = c;
+      j++;
+    }
+
   }
   if (!feof(f)) {
     err(1, "fgetln: <%s>", filename);
   }
-  return buffer;
+  return NULL;
 }

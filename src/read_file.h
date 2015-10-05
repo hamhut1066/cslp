@@ -1,7 +1,7 @@
 #ifndef READ_FILE_H_ /* include guard */
 #define READ_FILE_H_
 
-char **read_config_file(char* filename);
+void **read_config_file(char *buffer[], char* filename);
 char test_char(void);
 
 #endif
