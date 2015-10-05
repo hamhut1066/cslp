@@ -15,6 +15,9 @@ t:
 tt: t
 	./bin/cslp-test
 
+val:
+	valgrind ./bin/cslp-test
+
 build: all test
 
 clean:
