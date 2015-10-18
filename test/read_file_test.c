@@ -1,8 +1,9 @@
 /* Tested file */
-#include "CuTest.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "cutest/CuTest.h"
 
 #include "../src/read_file.h"
 
@@ -28,7 +29,7 @@ void read_file_test(CuTest *tc) {
 void parse_config_test(CuTest *tc) {
   char **buffer = malloc(BUFF_LEN * sizeof(char));
   read_config_file(buffer, SAMPLE_INPUT);
-  struct Kv *config = parse_config(buffer);
+  /* struct Kv *config = parse_config(buffer); */
   free(buffer);
 }
 
@@ -36,6 +37,6 @@ void parse_config_test(CuTest *tc) {
 CuSuite* ReadFileGetSuite() {
   CuSuite* suite = CuSuiteNew();
   SUITE_ADD_TEST(suite, read_file_test);
-  SUITE_ADD_TEST(suite, parse_config_test);
+  /* SUITE_ADD_TEST(suite, parse_config_test); */
   return suite;
 }

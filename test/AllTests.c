@@ -1,6 +1,7 @@
-#include "CuTest.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "cutest/CuTest.h"
 
 #include "read_file_test.h"
 
