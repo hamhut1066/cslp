@@ -4,6 +4,20 @@
 #include <err.h>
 #include "read_file.h"
 
+/*
+ * Key Value Struct
+ * TODO: (Maybe pull out into generic functionality) (or maybe move into an in-memory db).
+ */
+struct Kv {
+  char *key;
+  char *value;
+};
+
+  struct Kv *parse_config(char *buffer[]) {
+
+    return struct Kv;
+  }
+
 void **read_config_file(char *buffer[], char* filename) {
 
   FILE *f;
