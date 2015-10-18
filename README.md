@@ -20,7 +20,6 @@ In relation to running the `unite.sh` script, you will need to install `gnu-sed`
 
 with everything now setup, you can just run:
 
-    ./compile.sh
     ./unite.sh
 
 This should just work on DICE.
