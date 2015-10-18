@@ -7,7 +7,7 @@ all:
 tests:
 
 r: all
-	./bin/cslp
+	./bin/cslp ./test/fs/input.in
 
 t:
 	$(MAKE) -C $(TEST)
