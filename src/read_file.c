@@ -13,10 +13,7 @@ struct Kv {
   char *value;
 };
 
-struct Kv parse_config(char *buffer[]) {
-
-  struct Kv x;
-  return x;
+void parse_config(char *buffer[]) {
 }
 
 void **read_config_file(char *buffer[], char* filename) {
