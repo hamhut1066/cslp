@@ -668,19 +668,19 @@ void wg_ginthash_free(void *db, void *tbl) {
  *  of the directory space when used directly.
  *  Uses FNV-1a.
  */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
 static gint rehash_gint(gint val) {
   int i;
   wg_uint hash = FNV_offset_basis;
 
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wsign-compare"
   for(i=0; i<sizeof(gint); i++) {
-  #pragma GCC diagnostic pop
     hash ^= ((unsigned char *) &val)[i];
     hash *= FNV_prime;
   }
   return (gint) hash;
 }
+#pragma GCC diagnostic pop
 
 /** Grow the hash directory and allocate a new bucket pool.
  *
