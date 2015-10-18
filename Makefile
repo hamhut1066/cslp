@@ -20,6 +20,9 @@ val:
 
 build: all test
 
+deps:
+	cd ./lib/whitedb/ && ./unite.sh
+
 clean:
 	$(MAKE) -C $(SRC) clean
 	$(MAKE) -C $(TEST) clean
