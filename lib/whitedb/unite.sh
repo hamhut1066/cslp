@@ -33,7 +33,7 @@ $(amal Db/dbschema.h)
 EOT
 
 cat << EOT > whitedb.c
-#include <whitedb.h>
+#include "whitedb.h"
 $(amal Db/crc1.h)
 
 $(amal json/yajl_all.c)

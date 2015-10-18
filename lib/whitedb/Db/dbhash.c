@@ -672,7 +672,10 @@ static gint rehash_gint(gint val) {
   int i;
   wg_uint hash = FNV_offset_basis;
 
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wsign-compare"
   for(i=0; i<sizeof(gint); i++) {
+  #pragma GCC diagnostic pop
     hash ^= ((unsigned char *) &val)[i];
     hash *= FNV_prime;
   }
