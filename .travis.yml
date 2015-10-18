@@ -1,2 +1,3 @@
 language: C
 script: make -C ./test/
+dist: trusty
