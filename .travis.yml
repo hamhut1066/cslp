@@ -1,2 +1,2 @@
 language: C
-script: make tt
+script: make -C ./test/
