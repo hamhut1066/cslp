@@ -1,6 +1,7 @@
 TAGS
 *.o
 bin/*
+scratch
 
 lib/whitedb/config.h
 lib/whitedb/whitedb.h
