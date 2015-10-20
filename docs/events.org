@@ -1,0 +1,11 @@
+* Allowed States
+These are the allowed states that can be captured and need to be checked for
+
+** Arrival of New Customer ( with request in the system)
+Each arrival request can be considered an _independant_ event.  
+Look into this more when it becomes more relevant
+** Departure of Bus from location
+** Arrival of Bus at Stop
+** Disembarkation of a passenger ( constant time to unload each passenger? )
+** Boarding of a passenger
+
