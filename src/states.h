@@ -1,3 +1,6 @@
+#ifndef _STATES_H_
+#define _STATES_H_
+#include <libconfig.h>
 /*
  * This file encodes the possible states
  * each state will share some attributes,
@@ -29,7 +32,7 @@ typedef struct {
 
 struct Stops {}; // Stops may be able to be marked on the ServiceNetwork
 struct Users {}; // State will be had
-struct MiniBuses {}; // These have state, and will need to be stored
+struct Buses {}; // These have state, and will need to be stored
 struct ServiceNetwork {}; // This needs to be thought about...
 
 /*
@@ -42,10 +45,34 @@ struct ServiceNetwork {}; // This needs to be thought about...
  */
 typedef struct {
   /* defines the state no. this gives us the ablity to have a strictly ordered number of states */
-  int state_no;
+  int no;
+
+  int bus_capacity;
+  int boarding_time;
+  double request_rate;
+  double pickup_interval;
+  int max_delay;
+  int no_buses;
+  int no_stops;
+  /* implement map */
+  int stop_time;
+
   struct Users *users;
-  struct MiniBuses *minibuses;
+  struct Buses *buses;
   struct ServiceNetwork network;
 } State;
 
 // TODO: implement state specific methods (i.e... print_state)
+
+
+/*
+ * Helpers
+ */
+
+/*
+ * extracts out the config and creates the initial state.
+ */
+State *state_initial_state();
+void destroy_state(State *state);
+void print_state(State *state);
+#endif
