@@ -9,3 +9,13 @@ Look into this more when it becomes more relevant
 ** Disembarkation of a passenger ( constant time to unload each passenger? )
 ** Boarding of a passenger
 
+
+* The Network
+The network is being implemented as a Single, Directed Graph.
+It is described as the vertices being the bus stops,
+with the edges being the travel time (in minutes) between those edges.
+
+** Thoughts about implementation
+Worth having a look into Dijkstra's Algorithm for this problem.
+(Is there a max runtime for this project? or can optimisation occur?)
+- If time, possibly look into multi-threading for path-finding...
