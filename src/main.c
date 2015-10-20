@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "whitedb/whitedb.h"
 
 #include "read_file.h"
-#include "whitedb/whitedb.h"
 
 void usage() {
   printf("Usage: cslp [filename]\n");
