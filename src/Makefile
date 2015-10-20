@@ -8,9 +8,9 @@ ifeq ($(PLATFORM), "Darwin")
 else
 	CFLAGS=-pipe -std=gnu99 -c
 endif
-LDFLAGS=-lm
+LDFLAGS=-lm -L/usr/local/lib -lconfig
 
-CPATH="../lib/"
+CPATH="/usr/local/include:../lib/"
 
 SOURCES= \
 $(shell cat ../deps.txt) \
