@@ -7,24 +7,32 @@
  * Handles all state related things
  */
 
-State *state_initial_state() {
+State *get_initial_state() {
   State *state = malloc(sizeof(State));
-  struct Config *config = malloc(sizeof(struct Config));
-  if (state == NULL || config == NULL) {
+  if (state == NULL) {
     printf("Error Mallocing State\n");
     free(state);
-    free(config);
     return NULL;
   }
 
-  state->no = 0;
-  state->config = config;
+  state->no = 0; /* TODO: ? maybe let user define the no? */
 
   return state;
 }
 
+struct Config *get_initial_config() {
+  struct Config *config = malloc(sizeof(struct Config));
+  if (config == NULL) {
+    printf("Error mallocing Config\n");
+    free(config);
+    return NULL;
+  }
 
-void destroy_users(struct Users *users) {
+  return config;
+}
+
+
+void destroy_users(struct User *users) {
   if (users != NULL) {
     DEBUG_PRINT("This needs to go through the array and delete everything");
     exit(EXIT_FAILURE);
@@ -32,16 +40,24 @@ void destroy_users(struct Users *users) {
   }
 }
 
-void destroy_buses(struct Buses *buses) {
+void destroy_buses(struct Bus *buses) {
   if (buses != NULL) {
     DEBUG_PRINT("This needs to go through the array and delete everything");
     exit(EXIT_FAILURE);
     free(buses);
   }
 }
+
+void destroy_network(int **map, int dim) {
+  int i;
+  for(i = 0; i < dim; i++) {
+    free(map[i]);
+  }
+  free(map);
+}
 void destroy_config(struct Config *conf) {
   if (conf != NULL) {
-    /* destroy_network(state->network); */
+    destroy_network(conf->map, conf->dimension);
     free(conf);
   }
 }
@@ -55,24 +71,32 @@ void destroy_state(State *state) {
 }
 
 // TODO: make sure this does not become a god file.
-void print_state(State *state) {
-  printf("No: %d\n", state->no);
+void print_config(struct Config *config) {
   printf("{busCapacity: %d, boardingTime: %d, requestRate: %f, pickupInterval: %f, maxDelay: %d, noBuses: %d, noStops: %d, stopTime: %d}\n",
-         state->config->bus_capacity,
-         state->config->boarding_time,
-         state->config->request_rate,
-         state->config->pickup_interval,
-         state->config->max_delay,
-         state->config->no_buses,
-         state->config->no_stops,
-         state->config->stop_time
+         config->bus_capacity,
+         config->boarding_time,
+         config->request_rate,
+         config->pickup_interval,
+         config->max_delay,
+         config->no_buses,
+         config->no_stops,
+         config->stop_time
          );
   int i, j;
-  for(i = 0; i < state->config->dimension; i++) {
+  for(i = 0; i < config->dimension; i++) {
     printf("[");
-    for(j = 0; j < state->config->dimension; j++) {
-      printf("%d, ", state->config->map[i][j]);
+    for(j = 0; j < config->dimension; j++) {
+      printf("%d, ", config->map[i][j]);
     }
     printf("]\n");
   }
+}
+
+/*
+ * Sets the initial state of the program
+ * The state is built from the passed in config file.
+ */
+void set_initial_state(State *state, struct Config *config) {
+  /* assign the config so that it is accessible from State. */
+  state->config = config;
 }

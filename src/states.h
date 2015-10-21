@@ -30,9 +30,23 @@ typedef struct {
   struct BusDepartureEvent e;
 } Event;
 
-struct Stops {}; // Stops may be able to be marked on the ServiceNetwork
-struct Users {}; // State will be had
-struct Buses {}; // These have state, and will need to be stored
+struct Stop {
+  int x;
+  int y;
+};
+
+struct StopEdge {
+  int time;
+  struct Stop source;
+  struct Stop dest;
+};
+
+struct User {
+  /* implement as a singly linked list?... */
+};
+struct Bus {
+  /* This will need to have a link to the current stop,*/
+};
 struct ServiceNetwork {}; // This needs to be thought about...
 
 /*
@@ -66,8 +80,10 @@ typedef struct {
   int no;
 
   struct Config *config;
-  struct Users *users;
-  struct Buses *buses;
+
+  struct StopEdge *stops;
+  struct User *users;
+  struct Bus *buses;
   struct ServiceNetwork network;
 } State;
 
@@ -81,7 +97,13 @@ typedef struct {
 /*
  * extracts out the config and creates the initial state.
  */
-State *state_initial_state();
+
+/* create and destroy */
+State *get_initial_state();
+struct Config *get_initial_config();
 void destroy_state(State *state);
-void print_state(State *state);
+void destroy_config(struct Config *config);
+
+void print_config(struct Config *config);
+void set_initial_state(State *state, struct Config *config);
 #endif
