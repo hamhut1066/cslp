@@ -12,17 +12,20 @@
 
 
 void parse_config_test(CuTest *tc) {
-  config_t config;
-  State *state = state_initial_state();
+  State *state = get_initial_state();
+  struct Config *config = get_initial_config();
 
-  if (!read_config_file(&config, SAMPLE_INPUT)) {
-    printf("There was an issue with the config file %s\n", SAMPLE_INPUT);
-  }
+  read_config_file(config, SAMPLE_INPUT);
+  set_initial_state(state, config);
 
-  parse_config(state, &config);
-  print_state(state);
+  print_config(state->config);
 
-  config_destroy(&config);
+  CuAssertIntEquals(tc, config->bus_capacity, state->config->bus_capacity);
+  CuAssertIntEquals(tc, config->bus_capacity, 12);
+
+  /* CuAssertDblEquals(tc, config->request_rate, state->config->request_rate); */
+  /* CuAssertDblEquals(tc, config->request_rate, 30.0); */
+
   destroy_state(state);
 
 }
