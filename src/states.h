@@ -36,6 +36,24 @@ struct Buses {}; // These have state, and will need to be stored
 struct ServiceNetwork {}; // This needs to be thought about...
 
 /*
+ * Configuration Object
+ * This object holds the configuration of the project.
+ */
+struct Config {
+
+  int bus_capacity;
+  int boarding_time;
+  double request_rate;
+  double pickup_interval;
+  int max_delay;
+  int no_buses;
+  int no_stops;
+  int **map;
+  int stop_time;
+  int dimension;
+};
+
+/*
  * This Defines a state of the program.
  * Note: The values are _essentially_ immutable, (althought technically not possible)
  *
@@ -47,16 +65,7 @@ typedef struct {
   /* defines the state no. this gives us the ablity to have a strictly ordered number of states */
   int no;
 
-  int bus_capacity;
-  int boarding_time;
-  double request_rate;
-  double pickup_interval;
-  int max_delay;
-  int no_buses;
-  int no_stops;
-  /* implement map */
-  int stop_time;
-
+  struct Config *config;
   struct Users *users;
   struct Buses *buses;
   struct ServiceNetwork network;
