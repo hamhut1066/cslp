@@ -23,8 +23,9 @@ void parse_config_test(CuTest *tc) {
   CuAssertIntEquals(tc, config->bus_capacity, state->config->bus_capacity);
   CuAssertIntEquals(tc, config->bus_capacity, 12);
 
-  /* CuAssertDblEquals(tc, config->request_rate, state->config->request_rate); */
-  /* CuAssertDblEquals(tc, config->request_rate, 30.0); */
+  CuAssertIntEquals(tc, config->map[0][0], 0);
+  CuAssertIntEquals(tc, config->map[1][2], 5);
+  CuAssertIntEquals(tc, config->map[3][2], -1);
 
   destroy_state(state);
 
