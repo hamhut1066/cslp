@@ -1,3 +1,3 @@
 language: C
-script: make -C ./test/
+script: make tt
 dist: trusty
