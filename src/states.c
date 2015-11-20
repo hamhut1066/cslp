@@ -79,14 +79,14 @@ void print_config(struct Config *config) {
          config->pickup_interval,
          config->max_delay,
          config->no_buses,
-         config->no_stops,
+         config->no_stops, // dimension of map
          config->stop_time
          );
   int i, j;
-  for(i = 0; i < config->dimension; i++) {
+  for(i = 0; i < config->no_stops; i++) {
     printf("[");
-    for(j = 0; j < config->dimension; j++) {
-      printf("%d, ", config->map[i][j]);
+    for(j = 0; j < config->no_stops; j++) {
+      printf("%d ", config->map[i][j]);
     }
     printf("]\n");
   }
