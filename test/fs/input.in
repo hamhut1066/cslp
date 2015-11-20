@@ -1,25 +1,24 @@
 # capacity of a minibus in terms of number of passengers
-busCapacity: 12
+busCapacity 12
 # passenger boarding/disembarkation duration (in seconds)
-boardingTime: 10
+boardingTime 10
 # Average number of journey requests per hour
-requestRate: 30.0
+requestRate 30.0
 # Average time between request and desired pick-up (in minutes)
-pickupInterval: 20.0
+pickupInterval 30.0
 # Maximum time a user can wait beyond the desired pick-up time (in minutes)
-maxDelay: 15
+maxDelay 15
 # Number of minibuses
-noBuses: 5
+noBuses 5
 # Number of bus stops
-noStops: 6
+noStops 6
 # Road layout and distances (in minutes) between bus stops
-map: (
-[0, 3, -1, -1, -1, 4],
-[3, 0, 5, -1, -1, -1],
-[-1, -1, 0, 2, -1, -1],
-[-1, -1, -1, 0, 2, 2],
-[-1, 1, -1, -1, 0, -1],
-[4, -1, -1, 2, 4, 0]
-)
+map
+0 3 -1 -1 -1 4
+3 0 5 -1 -1 -1
+-1 -1 0 2 -1 -1
+-1 -1 -1 0 2 2
+-1 1 -1 -1 0 -1
+4 -1 -1 2 4 0
 # Simulation duration (in hours)
-stopTime: 24
+stopTime 24
