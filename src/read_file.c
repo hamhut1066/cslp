@@ -9,79 +9,59 @@
 
 #include "read_file.h"
 
-void parse_map(struct Config *state, config_setting_t *map_list) {
-  int dim; /* This is working on the assumption of a square matrix */
-  int i, j, array_elem;
-  config_setting_t *array;
+void read_config_file(struct Config *cfg, char* filename) {
+  FILE *pFile;
+  char mystring [100];
+  char key [100];
+  int value;
+  int processing_map = 0;
+  int map_iter = 0;;
 
-  dim = config_setting_length(map_list);
-  state->dimension = dim;
-
-  int **map = malloc(dim * sizeof(int*));
-  /* populate and create the map as a 2-dimensional array */
-  for(i = 0; i < dim; i++) {
-    map[i] = malloc(dim * sizeof(int));
-    array = config_setting_get_elem(map_list, i);
-    if (array == NULL || map[i] == NULL) {
-      printf("Array doesn't exist in map!: %d:%d", i, j);
+  pFile = fopen(filename, "r");
+  if (pFile == NULL) perror("Error opening file");
+  else {
+    while (fgets(mystring, 100, pFile) != NULL) {
+      sscanf(mystring, "%s %d", key, &value);
+      if (strncmp(key, "#", 1) == 0) {}
+      else if (processing_map) {
+        /* Processes the map, needs to implement one line at a time */
+        int *map = malloc(cfg->no_stops * sizeof(int));
+        int i = 0;
+        char *token = strtok(mystring, " ");
+        while (token) {
+          int val = strtol(token, NULL, 10);
+          token = strtok(NULL, " ");
+          map[i++] = val;
+        }
+        cfg->map[map_iter++] = map;
+        if (++processing_map > cfg->no_stops) {
+          processing_map = 0;
+        }
+      } else if (strncmp(key, "map", 3) == 0) {
+        processing_map = 1;
+      } else {
+        if (strncmp(key, "busCapacity", 100) == 0) {
+          cfg->bus_capacity = value;
+        } else if (strncmp(key, "boardingTime", 100) == 0) {
+          cfg->boarding_time = value;
+        } else if (strncmp(key, "requestRate", 100) == 0) {
+          cfg->request_rate = value;
+        } else if (strncmp(key, "pickupInterval", 100) == 0) {
+          cfg->pickup_interval = value;
+        } else if (strncmp(key, "maxDelay", 100) == 0) {
+          cfg->pickup_interval = value;
+        } else if (strncmp(key, "noBuses", 100) == 0) {
+          cfg->no_buses = value;
+        } else if (strncmp(key, "noStops", 100) == 0) {
+          cfg->no_stops = value;
+          cfg->map = malloc(value * sizeof(int*));
+        } else if (strncmp(key, "stopTime", 100) == 0) {
+          cfg->stop_time = value;
+        } else {
+          puts ("You forgot to implement something");
+        }
+      }
     }
-
-    for(j = 0; j < dim; j++) {
-      array_elem = config_setting_get_int_elem(array, j);
-      map[i][j] = array_elem;
-    }
-  }
-
-  state->map = map;
-}
-
-void parse_config(struct Config *state, config_t *config) {
-  double double_cfg;
-  int int_cfg;
-
-  if(config_lookup_int(config, "busCapacity", &int_cfg)) {
-    state->bus_capacity = int_cfg;
-  }
-
-  if(config_lookup_int(config, "boardingTime", &int_cfg)) {
-    state->boarding_time = int_cfg;
-  }
-
-  if(config_lookup_float(config, "requestRate", &double_cfg)) {
-    state->request_rate = double_cfg;
-  }
-
-  if(config_lookup_float(config, "pickupInterval", &double_cfg)) {
-    state->pickup_interval = double_cfg;
-  }
-
-  if(config_lookup_int(config, "maxDelay", &int_cfg)) {
-    state->max_delay = int_cfg;
-  }
-
-  if(config_lookup_int(config, "noBuses", &int_cfg)) {
-    state->no_buses = int_cfg;
-  }
-
-  if(config_lookup_int(config, "noStops", &int_cfg)) {
-    state->no_stops = int_cfg;
-  }
-
-  if(config_lookup_int(config, "stopTime", &int_cfg)) {
-    state->stop_time = int_cfg;
-  }
-
-  config_setting_t *map_list = config_lookup(config, "map");
-  parse_map(state, map_list);
-}
-
-void read_config_file(struct Config *config, char* filename) {
-  config_t cfg;
-  config_init(&cfg);
-  config_set_options(&cfg, CONFIG_OPTION_COLON_ASSIGNMENT_FOR_GROUPS);
-  config_set_options(&cfg, CONFIG_OPTION_COLON_ASSIGNMENT_FOR_NON_GROUPS);
-
-  if(config_read_file(&cfg, filename)) {
-    parse_config(config, &cfg);
+    fclose (pFile);
   }
 }
