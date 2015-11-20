@@ -2,7 +2,7 @@ SRC=./src
 TEST=./test/
 
 all:
-	$(MAKE) -C $(SRC)
+	@$(MAKE) -C $(SRC)
 
 tests:
 
