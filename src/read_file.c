@@ -58,7 +58,7 @@ void read_config_file(struct Config *cfg, char* filename) {
         } else if (strncmp(key, "stopTime", 100) == 0) {
           cfg->stop_time = value;
         } else {
-          puts ("You forgot to implement something");
+          printf("You forgot to implement something: %s\n", key);
         }
       }
     }
