@@ -1,6 +1,5 @@
 #ifndef _STATES_H_
 #define _STATES_H_
-#include <libconfig.h>
 /*
  * This file encodes the possible states
  * each state will share some attributes,

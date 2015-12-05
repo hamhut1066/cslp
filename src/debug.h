@@ -1,3 +1,4 @@
+#include <stdio.h>
 #ifdef DEBUG
 #ifndef _DEBUG_H
 #define _DEBUG_H

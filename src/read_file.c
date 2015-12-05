@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <err.h>
 
-#include <libconfig.h>
-
 #include "states.h"
 
 #include "read_file.h"

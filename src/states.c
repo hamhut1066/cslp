@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <libconfig.h>
 
 #include "states.h"
 #include "debug.h"
@@ -57,20 +56,17 @@ void destroy_network(int **map, int dim) {
 }
 void destroy_config(struct Config *conf) {
   if (conf != NULL) {
-    destroy_network(conf->map, conf->dimension);
-    free(conf);
+    destroy_network(conf->map, conf->no_stops);
   }
 }
 
 void destroy_state(State *state) {
   if (state != NULL) {
-    destroy_config(state->config);
     destroy_users(state->users);
     destroy_buses(state->buses);
   }
 }
 
-// TODO: make sure this does not become a god file.
 void print_config(struct Config *config) {
   printf("{busCapacity: %d, boardingTime: %d, requestRate: %f, pickupInterval: %f, maxDelay: %d, noBuses: %d, noStops: %d, stopTime: %d}\n",
          config->bus_capacity,
@@ -83,12 +79,18 @@ void print_config(struct Config *config) {
          config->stop_time
          );
   int i, j;
-  for(i = 0; i < config->no_stops; i++) {
-    printf("[");
-    for(j = 0; j < config->no_stops; j++) {
-      printf("%d ", config->map[i][j]);
+  if (config->map != NULL) {
+    for(i = 0; i < config->no_stops; i++) {
+      printf("[");
+      for(j = 0; j < config->no_stops; j++) {
+        if (config->map[i] != NULL) {
+          printf("%dn ", config->map[i][j]);
+        } else {
+          printf("N ");
+        }
+      }
+      printf("]\n");
     }
-    printf("]\n");
   }
 }
 
