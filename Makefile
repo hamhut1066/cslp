@@ -1,7 +1,7 @@
 SRC=./src
 TEST=./test/
 
-all:
+all: deps
 	@$(MAKE) -C $(SRC)
 
 tests:
@@ -9,7 +9,7 @@ tests:
 r: all
 	./bin/cslp ./test/fs/input.in
 
-t:
+t: deps
 	$(MAKE) -C $(TEST)
 
 tt: t
@@ -21,7 +21,7 @@ val:
 build: all test
 
 deps:
-	cd ./lib/whitedb/ && ./unite.sh
+	@mkdir -p bin
 
 clean:
 	$(MAKE) -C $(SRC) clean
