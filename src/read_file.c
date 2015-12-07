@@ -36,6 +36,12 @@ void read_config_file(struct Config *cfg, char* filename) {
           processing_map = 0;
         }
       } else if (strncmp(key, "map", 3) == 0) {
+        /* Throw decent error if map found before no_stops */
+        if (cfg->no_stops == 0) {
+          printf("The No. of stops must be provided before the map.\n");
+          printf("Exiting...\n");
+          exit(1);
+        }
         processing_map = 1;
       } else {
         if (strncmp(key, "busCapacity", 100) == 0) {

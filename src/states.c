@@ -27,6 +27,9 @@ struct Config *get_initial_config() {
     return NULL;
   }
 
+  /* this default is needed to stop errors */
+  config->no_stops = 0;
+
   return config;
 }
 
