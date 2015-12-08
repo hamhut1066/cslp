@@ -6,20 +6,17 @@ http://cutest.sourceforge.net/
 The testing library has been included from the following place:
 I have embeded it into my project, as this makes building easier.
 
-## WhiteDb
-http://whitedb.org
-This provides me with an in-memory Graph-Database.
-Note, in order to run this on OS X, the following needs to be run on the machine:
+# Implementation Details
 
-    sudo sysctl -w kern.sysv.shmmax=1073741824
-    sudo sysctl -w kern.sysv.shmall=262144
+## Config Parsing
+I have set default values to some config settings, and I have also converted several values,
+i.e (stopTime) so that it can more easily be worked with. There is a potential issue with this though, that of it possibly running over max overflow in seconds.
 
-In relation to running the `unite.sh` script, you will need to install `gnu-sed`.
 
-    brew install gnu-sed --with-default-names
+# Testing
 
-with everything now setup, you can just run:
+I have written some basic testing, that covers the basic parsing of config files with different layouts.
+I elected to exit the program on an invalid config file parse. This does mean that I won't be able to test it.
+possibly I should look into how to complete parsing the config file, and what to do then.
 
-    ./unite.sh
-
-This should just work on DICE.
+The testing at the moment is fairly rudimentary, as there is little else happening other than the parsing of the config file.
