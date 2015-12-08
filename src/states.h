@@ -105,4 +105,5 @@ void destroy_config(struct Config *config);
 
 void print_config(struct Config *config);
 void set_initial_state(State *state, struct Config *config);
+void print_state(State *state);
 #endif

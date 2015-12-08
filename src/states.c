@@ -105,3 +105,7 @@ void set_initial_state(State *state, struct Config *config) {
   /* assign the config so that it is accessible from State. */
   state->config = config;
 }
+
+void print_state(State *state) {
+  print_config(state->config);
+}
