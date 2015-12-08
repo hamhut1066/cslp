@@ -20,6 +20,7 @@ void parse_config_test(CuTest *tc) {
 
   CuAssertIntEquals(tc, config->bus_capacity, state->config->bus_capacity);
   CuAssertIntEquals(tc, config->bus_capacity, 12);
+  CuAssertIntEquals(tc, config->stop_time, 86400);
 
   CuAssertIntEquals(tc, config->map[0][0], 0);
   CuAssertIntEquals(tc, config->map[1][2], 5);
@@ -36,6 +37,7 @@ void parse_bad_config_test(CuTest *tc) {
   read_config_file(config, BAD_INPUT);
 
   CuAssertIntEquals(tc, config->bus_capacity, 12);
+  CuAssertIntEquals(tc, config->stop_time, 86400);
 
   CuAssertIntEquals(tc, config->map[0][0], 0);
   CuAssertIntEquals(tc, config->map[1][2], 5);
