@@ -68,4 +68,9 @@ void read_config_file(struct Config *cfg, char* filename) {
     }
     fclose (pFile);
   }
+
+  /* config customization */
+
+  /* hours to seconds gives us uniques times for everything */
+  cfg->stop_time = cfg->stop_time * 60 * 60;
 }
