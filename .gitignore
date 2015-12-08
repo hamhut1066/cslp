@@ -2,7 +2,4 @@ TAGS
 *.o
 bin/*
 scratch
-
-lib/whitedb/config.h
-lib/whitedb/whitedb.h
-lib/whitedb/whitedb.c
+.projectile
