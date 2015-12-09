@@ -4,6 +4,7 @@
 #include "cutest/CuTest.h"
 
 #include "read_file_test.h"
+#include "controller_test.h"
 
 void RunAllTests(void) {
   CuString *output = CuStringNew();
@@ -11,6 +12,7 @@ void RunAllTests(void) {
 
   /* new tests here */
   CuSuiteAddSuite(suite, ReadFileGetSuite());
+  CuSuiteAddSuite(suite, ControllerGetSuite());
 
   CuSuiteRun(suite);
   CuSuiteSummary(suite, output);
