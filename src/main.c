@@ -18,9 +18,8 @@ int main(int argc, char *argv[]) {
   }
 
   /* Initialise and allocate base objects. */
-  state = get_initial_state();
   read_config_file(&config, argv[1]);
-  set_initial_state(state, &config);
+  state = get_state(&config);
 
 
   run_experiment(state);
