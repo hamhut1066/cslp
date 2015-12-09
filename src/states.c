@@ -15,6 +15,7 @@ State *get_initial_state() {
   }
 
   state->no = 0; /* TODO: ? maybe let user define the no? */
+  state->time = 0; /* initial state is time 0 */
 
   return state;
 }
@@ -108,4 +109,16 @@ void set_initial_state(State *state, struct Config *config) {
 
 void print_state(State *state) {
   print_config(state->config);
+
+  printf("Time: %d\n", state->time);
+}
+
+/* TODO: refactor into states.c */
+State *get_state(struct Config *config) {
+  State *state;
+
+  state = get_initial_state();
+  set_initial_state(state, config);
+
+  return state;
 }

@@ -84,6 +84,9 @@ typedef struct {
   struct User *users;
   struct Bus *buses;
   struct ServiceNetwork network;
+
+  /* time that this state was reached */
+  int time;
 } State;
 
 // TODO: implement state specific methods (i.e... print_state)
@@ -98,12 +101,13 @@ typedef struct {
  */
 
 /* create and destroy */
-State *get_initial_state();
+// void set_initial_state(State *state, struct Config *config);
+State *get_state(struct Config *config);
 struct Config *get_initial_config();
+
 void destroy_state(State *state);
 void destroy_config(struct Config *config);
 
 void print_config(struct Config *config);
-void set_initial_state(State *state, struct Config *config);
 void print_state(State *state);
 #endif
