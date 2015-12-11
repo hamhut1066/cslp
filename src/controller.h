@@ -3,6 +3,8 @@
 
 #include "states.h"
 
-void run_experiment(State *state);
+struct Stats *run_experiment(struct State *state);
 
+/* exports for testing only */
+struct State *tick(struct State *state);
 #endif
