@@ -3,13 +3,15 @@
 
 #include "read_file.h"
 #include "controller.h"
+#include "output.h"
 
 void usage() {
   printf("Usage: cslp [filename]\n");
 }
 
 int main(int argc, char *argv[]) {
-  State *state;
+  struct State *state;
+  struct Stats *stats;
   struct Config config;
 
   if (argc < 2) {
@@ -22,7 +24,8 @@ int main(int argc, char *argv[]) {
   state = get_state(&config);
 
 
-  run_experiment(state);
+  stats = run_experiment(state);
+
   /* Cleanup of assigned variables */
   /* wg_delete_local_database(db); */
   destroy_config(&config);
