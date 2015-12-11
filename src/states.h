@@ -19,7 +19,7 @@ struct PassengerEmbarkEvent {};
  */
 typedef struct {
   /* Identifies the 'sub-struct that contains the event information' */
-  char identifier;
+  int identifier;
 
   /* Defined Events */
   struct PassengerSubscriptionEvent a;
@@ -46,7 +46,10 @@ struct User {
 struct Bus {
   /* This will need to have a link to the current stop,*/
 };
-struct ServiceNetwork {}; // This needs to be thought about...
+struct ServiceNetwork {
+  struct Stop *stops; /* list of all available stops */
+  struct StopEdge **routes;
+}; // This needs to be thought about...
 
 /*
  * Configuration Object
