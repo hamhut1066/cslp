@@ -6,8 +6,8 @@
  * Handles all state related things
  */
 
-State *get_initial_state() {
-  State *state = malloc(sizeof(State));
+struct State *get_initial_state() {
+  struct State *state = malloc(sizeof(struct State));
   if (state == NULL) {
     printf("Error Mallocing State\n");
     free(state);
@@ -64,10 +64,16 @@ void destroy_config(struct Config *conf) {
   }
 }
 
-void destroy_state(State *state) {
+void destroy_state(struct State *state) {
   if (state != NULL) {
     destroy_users(state->users);
     destroy_buses(state->buses);
+  }
+}
+
+void destroy_stats(struct Stats *stats) {
+  if (stats != NULL) {
+    destroy_state(stats->state);
   }
 }
 
@@ -98,27 +104,42 @@ void print_config(struct Config *config) {
   }
 }
 
+struct Stats *new_stats() {
+  struct Stats *stats = malloc(sizeof(struct Stats));
+
+  return stats;
+}
+
 /*
  * Sets the initial state of the program
  * The state is built from the passed in config file.
  */
-void set_initial_state(State *state, struct Config *config) {
+void set_initial_state(struct State *state, struct Config *config) {
   /* assign the config so that it is accessible from State. */
   state->config = config;
 }
 
-void print_state(State *state) {
-  print_config(state->config);
-
+void print_state(struct State *state) {
+  printf("No: %d - ", state->no);
   printf("Time: %d\n", state->time);
 }
 
-/* TODO: refactor into states.c */
-State *get_state(struct Config *config) {
-  State *state;
+struct State *get_state(struct Config *config) {
+  struct State *state;
 
   state = get_initial_state();
   set_initial_state(state, config);
 
+  return state;
+}
+
+struct State *next_state(struct State *old_state) {
+
+  struct State *state = get_initial_state();
+  state->last = old_state;
+
+  state->no = old_state->no + 1;
+  state->config = old_state->config;
+  state->time = old_state->time;
   return state;
 }

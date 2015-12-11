@@ -74,9 +74,12 @@ struct Config {
  * i.e. State *next; &| State *prev;
  * This could be stored in whitedb, allowing for creating a StateReference, or something similar.
  */
-typedef struct {
+struct State {
   /* defines the state no. this gives us the ablity to have a strictly ordered number of states */
   int no;
+  struct State *last; /* last state */
+  struct State *next; /* last state */
+  struct State *first; /* last state */
 
   struct Config *config;
 
@@ -87,10 +90,15 @@ typedef struct {
 
   /* time that this state was reached */
   int time;
-} State;
+};
 
-// TODO: implement state specific methods (i.e... print_state)
-
+/*
+ * This struct collects together all the relevant information for summarizing.
+ */
+struct Stats {
+  /* holds the state of the experiment after completion */
+  struct State *state;
+};
 
 /*
  * Helpers
@@ -102,12 +110,16 @@ typedef struct {
 
 /* create and destroy */
 // void set_initial_state(State *state, struct Config *config);
-State *get_state(struct Config *config);
+struct State *next_state(struct State *old_state);
+struct State *get_state(struct Config *config);
 struct Config *get_initial_config();
+struct Stats *new_stats();
 
-void destroy_state(State *state);
+void destroy_stats(struct Stats *stats);
+void destroy_state(struct State *state);
 void destroy_config(struct Config *config);
 
 void print_config(struct Config *config);
-void print_state(State *state);
+void print_state(struct State *state);
+
 #endif
