@@ -10,7 +10,7 @@ r: all
 	./bin/cslp ./test/fs/input.in
 
 t: deps
-	$(MAKE) -C $(TEST)
+	@$(MAKE) -C $(TEST)
 
 tt: t
 	./bin/cslp-test
