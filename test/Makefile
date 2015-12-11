@@ -16,10 +16,10 @@ EXECUTABLE=../bin/cslp-test
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+	@$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
 .c.o:
-	CPATH=$(CPATH) $(CC) $(CFLAGS) $< -o $@
+	@CPATH=$(CPATH) $(CC) $(CFLAGS) $< -o $@
 
 clean:
-	-rm $(EXECUTABLE) $(OBJECTS)
+	rm $(EXECUTABLE) $(OBJECTS)
