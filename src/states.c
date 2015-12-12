@@ -124,6 +124,10 @@ void print_state(struct State *state) {
   printf("Time: %d\n", state->time);
 }
 
+/*
+ * gets the initial state, and populates it with the config.
+ * creates the bus stops too, so that all can be right and pure.
+ */
 struct State *get_state(struct Config *config) {
   struct State *state;
 

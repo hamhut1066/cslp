@@ -5,8 +5,32 @@
  * each state will share some attributes,
  * such that they can be treated similarly in several contexts.
  */
+struct Stop {
+  int x;
+  int y;
+};
 
-struct PassengerSubscriptionEvent {};
+
+/*
+ * passenger subscribes for a pickup.
+ */
+struct PassengerSubscriptionEvent {
+  /*
+   * the unique identifier for this passenger.
+   * This no. is assigned when the passenger is recognised
+   */
+  int no;
+
+  /* departure and arrival Stops */
+  int departure;
+  int arrival;
+
+  /* time that the passenger wishes to depart */
+  int depart_at;
+  /* time that we schedule the passenger to depart */
+  int scheduled_at;
+};
+
 struct BusDepartureEvent {};
 struct BusArrivalEvent {};
 struct PassengerDisembarkEvent {};
@@ -14,25 +38,13 @@ struct PassengerEmbarkEvent {};
 
 
 /*
- * Generic Event Struct which will contain an identifier,
- * allowing for passing around one struct and only pulling out information where necessary
+ * defined events that can occur in the system.
  */
-typedef struct {
-  /* Identifies the 'sub-struct that contains the event information' */
-  int identifier;
-
-  /* Defined Events */
-  struct PassengerSubscriptionEvent a;
-  struct PassengerEmbarkEvent b;
-  struct PassengerDisembarkEvent c;
-  struct BusArrivalEvent d;
-  struct BusDepartureEvent e;
-} Event;
-
-struct Stop {
-  int x;
-  int y;
-};
+#define PASSENGER_SUBSCRIPTION_EVENT 0
+#define PASSENGER_EMBARK_EVENT       1
+#define PASSENGER_DISEMBARK_EVENT    2
+#define BUS_ARRIVAL_EVENT            3
+#define BUS_DEPARTURE_EVENT          4
 
 struct StopEdge {
   int time;
@@ -81,18 +93,25 @@ struct State {
   /* defines the state no. this gives us the ablity to have a strictly ordered number of states */
   int no;
   struct State *last; /* last state */
-  struct State *next; /* last state */
-  struct State *first; /* last state */
+  struct State *next; /* next state */
+  struct State *first; /* first state */
 
   struct Config *config;
 
+  /* to de dealt with */
   struct StopEdge *stops;
   struct User *users;
   struct Bus *buses;
   struct ServiceNetwork network;
 
+  /* event that occurs at this state */
+  int event;
+
   /* time that this state was reached */
   int time;
+
+  /* event specific information states */
+  struct PassengerSubscriptionEvent *passenger_subscription_event;
 };
 
 /*
