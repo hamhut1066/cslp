@@ -79,18 +79,34 @@ void output_state(struct State *state) {
  */
 struct State *next_passenger_state(struct State *old_state) {
   // return next_state(old_state);
-  struct State *state = next_state(old_state);
-
   double r;
+  double request_rate = old_state->config->request_rate;
+  struct State *state = next_state(old_state);
+  state->event = PASSENGER_SUBSCRIPTION_EVENT;
+  state->passenger_subscription_event = malloc(sizeof(struct PassengerSubscriptionEvent));
+  state->passenger_subscription_event->no = 0;
 
-  /* extract into sub-method */
-  do
-    r = uniform_deviate(rand());
-  while (r == 0.0);
 
-  int next_passenger = (int) (-log(r) * state->config->request_rate);
+  /* stops must be uniformly random */
+  state->passenger_subscription_event->departure = (int) random_value(request_rate, state->config->no_stops);
+  state->passenger_subscription_event->arrival = (int) random_value(request_rate, state->config->no_stops);
 
-  state->time = old_state->time + next_passenger;
+  /* get wait time for passenger */
+  {
+    r = random_value(request_rate, 0);
+    // int next_passenger = (int) (-log(r) * state->config->request_rate);
+    int next_passenger = r;
+    state->time = old_state->time + next_passenger;
+  }
+  r = random_value(request_rate, 0);
+  {
+    // int depart_time = (int) (-log(r) * state->config->request_rate);
+    int depart_time = r;
+    state->passenger_subscription_event->depart_at = state->time + depart_time;
+
+    /* set this to the same time as the default */
+    state->passenger_subscription_event->scheduled_at = state->passenger_subscription_event->depart_at;
+  }
 
   return state;
 }
@@ -123,7 +139,7 @@ struct Stats *run_experiment(struct State *state) {
 
   while (state->time < state->config->stop_time) {
     // TODO: add an event printer to the project.
-    // output_state(state);
+    output_state(state);
     state = tick(state);
   }
 
