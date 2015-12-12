@@ -55,8 +55,6 @@ void tick_increments_state(CuTest *tc) {
   CuAssertIntEquals(tc, 1, state->time > original_state->time);
   CuAssertIntEquals(tc, 1, state->time > 0);
 
-  CuAssertIntEquals(tc, 136, state->time);
-
   destroy_state(state);
 }
 
