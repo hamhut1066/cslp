@@ -15,6 +15,19 @@ double uniform_deviate (int seed) {
   return seed * (1.0 / (RAND_MAX + 1.0));
 }
 
+double random_value(double request_rate, double modulo) {
+  double r;
+  do
+    r = uniform_deviate(rand());
+  while (r == 0.0);
+
+  r = (-log(r) * request_rate);
+  if (modulo == 0.0) {
+    return r;
+  } else {
+    return fmod(r, modulo);
+  }
+}
 
 /*
  * formats the time to be beautiful
@@ -35,7 +48,27 @@ char *format_time(int time) {
 void output_state(struct State *state) {
   /* initial state does not have an event attached */
   if (state->no != 0) {
-    printf("%s ->", format_time(state->time));
+    printf("%s -> ", format_time(state->time));
+
+    /* switch to print out the correct event type */
+    switch (state->event) {
+    case PASSENGER_SUBSCRIPTION_EVENT:
+      printf("new request placed from stop %d to stop %d for departure at %s scheduled for %s",
+             state->passenger_subscription_event->departure,
+             state->passenger_subscription_event->arrival,
+             format_time(state->passenger_subscription_event->depart_at),
+             format_time(state->passenger_subscription_event->scheduled_at));
+      break;
+    case PASSENGER_EMBARK_EVENT:
+      break;
+    case PASSENGER_DISEMBARK_EVENT:
+      break;
+    case BUS_ARRIVAL_EVENT:
+      break;
+    case BUS_DEPARTURE_EVENT:
+      break;
+    }
+
     printf("\n");
   }
 }
