@@ -19,10 +19,31 @@ struct State *test_state() {
 
 void initial_iteration_test(CuTest *tc) {
   struct State *state = test_state();
+  // struct Bus *null_bus = NULL;
 
   CuAssertIntEquals(tc, 0, state->no);
   CuAssertIntEquals(tc, 0, state->time);
   CuAssertIntEquals(tc, 86400, state->config->stop_time);
+
+  /* test buses */
+  CuAssertIntEquals(tc, 0, state->buses->no);
+  CuAssertIntEquals(tc, 0, state->buses->location->no);
+
+
+  struct Bus *bus = state->buses;
+  bus += 4;
+
+  CuAssertIntEquals(tc, 4, bus->no);
+  CuAssertIntEquals(tc, 0, bus->location->no);
+
+  /* test locations */
+  CuAssertIntEquals(tc, 0, state->stops->no);
+
+  int i;
+  for (i = 0; i < state->config->no_stops; i++) {
+    CuAssertIntEquals(tc, i, (state->stops + i)->no);
+  }
+
 }
 
 
@@ -72,7 +93,6 @@ CuSuite* ControllerGetSuite(void) {
   CuSuite* suite = CuSuiteNew();
   SUITE_ADD_TEST(suite, initial_iteration_test);
   SUITE_ADD_TEST(suite, end_of_experiment_test);
-  SUITE_ADD_TEST(suite, initial_iteration_test);
   SUITE_ADD_TEST(suite, tick_increments_state);
   SUITE_ADD_TEST(suite, test_format_time);
   return suite;
