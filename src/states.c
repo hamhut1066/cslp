@@ -14,6 +14,10 @@ struct State *get_initial_state() {
     return NULL;
   }
 
+  state->users = NULL;
+  state->stops = NULL;
+  state->buses = NULL;
+
   state->no = 0; /* TODO: ? maybe let user define the no? */
   state->time = 0; /* initial state is time 0 */
 
@@ -37,7 +41,8 @@ struct Config *get_initial_config() {
 
 void destroy_users(struct User *users) {
   if (users != NULL) {
-    DEBUG_PRINT("This needs to go through the array and delete everything");
+    printf("%p", users);
+    DEBUG_PRINT(">This needs to go through the array and delete everything");
     exit(EXIT_FAILURE);
     free(users);
   }
@@ -45,8 +50,7 @@ void destroy_users(struct User *users) {
 
 void destroy_buses(struct Bus *buses) {
   if (buses != NULL) {
-    DEBUG_PRINT("This needs to go through the array and delete everything");
-    exit(EXIT_FAILURE);
+    // TODO: figure out how to actually run this for the _actual_ length of the array.
     free(buses);
   }
 }
@@ -119,6 +123,14 @@ void set_initial_state(struct State *state, struct Config *config) {
   state->config = config;
 }
 
+void print_bus(struct Bus *bus) {
+  printf("Bus: %d at ", bus->no);
+  printf("(%d -> %d)\n", bus->location->no, bus->destination->no);
+}
+
+void print_stop(struct Stop *stop) {
+  printf("Stop: %d\n", stop->no);
+}
 void print_state(struct State *state) {
   printf("No: %d - ", state->no);
   printf("Time: %d\n", state->time);
