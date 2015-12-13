@@ -6,8 +6,8 @@
  * such that they can be treated similarly in several contexts.
  */
 struct Stop {
-  int x;
-  int y;
+  /* stop no */
+  int no;
 };
 
 
@@ -40,11 +40,12 @@ struct PassengerEmbarkEvent {};
 /*
  * defined events that can occur in the system.
  */
-#define PASSENGER_SUBSCRIPTION_EVENT 0
-#define PASSENGER_EMBARK_EVENT       1
-#define PASSENGER_DISEMBARK_EVENT    2
-#define BUS_ARRIVAL_EVENT            3
-#define BUS_DEPARTURE_EVENT          4
+#define NULL_EVENT                   0
+#define PASSENGER_SUBSCRIPTION_EVENT 1
+#define PASSENGER_EMBARK_EVENT       2
+#define PASSENGER_DISEMBARK_EVENT    3
+#define BUS_ARRIVAL_EVENT            4
+#define BUS_DEPARTURE_EVENT          5
 
 struct StopEdge {
   int time;
@@ -57,6 +58,12 @@ struct User {
 };
 struct Bus {
   /* This will need to have a link to the current stop,*/
+  int no;
+
+  /* current location of the bus */
+  struct Stop *location;
+  /* location that the bus will be at */
+  struct Stop *destination;
 };
 struct ServiceNetwork {
   struct Stop *stops; /* list of all available stops */
@@ -99,7 +106,7 @@ struct State {
   struct Config *config;
 
   /* to de dealt with */
-  struct StopEdge *stops;
+  struct Stop *stops;
   struct User *users;
   struct Bus *buses;
   struct ServiceNetwork network;
