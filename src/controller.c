@@ -78,7 +78,6 @@ void output_state(struct State *state) {
  * gets the next passenger subscription state
  */
 struct State *next_passenger_state(struct State *old_state) {
-  // return next_state(old_state);
   double r;
   double request_rate = old_state->config->request_rate;
   struct State *state = next_state(old_state);
@@ -116,9 +115,12 @@ struct State *next_passenger_state(struct State *old_state) {
  * it gets the possible states of the next possible states,
  * then iterates through them and finds the one with the shortest time to
  * execution.
+ *
+ * TODO: Calculate the estimated pickup time for passenger subscriptions
  */
 struct State *create_new_state(struct State *old_state) {
-  return next_passenger_state(old_state);
+  struct State *pickup = next_passenger_state(old_state);
+  return pickup;
 }
 /*
  * This method performs one tick, and returns the new state.
