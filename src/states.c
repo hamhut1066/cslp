@@ -134,17 +134,43 @@ void print_stop(struct Stop *stop) {
 void print_state(struct State *state) {
   printf("No: %d - ", state->no);
   printf("Time: %d\n", state->time);
+
+  int i;
+  for(i = 0; i < state->config->no_buses; i++) {
+    print_bus(state->buses + i);
+  }
+
+  for (i = 0; i < state->config->no_stops; i++) {
+    print_stop(state->stops + i);
+  }
 }
 
 /*
  * gets the initial state, and populates it with the config.
- * creates the bus stops too, so that all can be right and pure.
+ * creates the bus stops too, so that all can be right and pure
  */
 struct State *get_state(struct Config *config) {
+  int i;
   struct State *state;
 
   state = get_initial_state();
   set_initial_state(state, config);
+
+  /* construct the stops */
+  state->stops = malloc(config->no_stops * sizeof(struct Stop *));
+  for (i = 0; i < config->no_stops; i++) {
+    (state->stops + i)->no = i;
+  }
+
+  /* construct the buses */
+  state->buses = malloc(config->no_buses * sizeof(struct Bus *));
+  for (i = 0; i < config->no_buses; i++) {
+    (state->buses + i)->no = i;
+
+    /* set the stops to the initial stop */
+    (state->buses + i)->location = state->stops;
+    (state->buses + i)->destination = state->stops;
+  }
 
   return state;
 }
