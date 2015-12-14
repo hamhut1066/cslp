@@ -21,6 +21,18 @@ This is in the hope that I can have an easily follow-able (singly-linked list).
 This Struct is passed back to the upper levels, and contains the entire stsate list, and will also contain the experiment information.
 In this way, I can pass in a Stats struct and print out the entire output of the program.
 
+### Stops
+Having considered several ways of implementing this, I went with a simple struct.
+The contents I defined as having a no. (corresponding to it's position in the map),
+an `adjacency` value, which is simply the number of adjacent stops to the current stop,
+and an array of `edges`, corresponding to the numbers of the stops that are adjacent to the current stop.
+Initially I had planned on using references to the actual stop structs, but I was getting serious issues with
+persistence of addresses for some reason.
+
+In actuality, the array of `edges` are structs, (`StopEdge`), that contain both a weight, source and destination
+value. the weight being the cost of traveling that edge, and the source and destination values corresponding to
+bus stops.
+
 ## Simulation Algorithm
 The solution that I have come up with is a simple 2 method deep iteration loop.
 I will simply call a `run_experiment` method, with an initial state passed in, and it will run the experiment accordingly. (I plan on doing all checks that need to be done beforehand, so that I don't need to deal with anything extraneous during the execution)
