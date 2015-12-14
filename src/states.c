@@ -150,6 +150,7 @@ void print_state(struct State *state) {
  */
 struct State *get_state(struct Config *config) {
   int i;
+  int j;
   struct State *state;
 
   state = get_initial_state();
@@ -157,13 +158,14 @@ struct State *get_state(struct Config *config) {
   state->config = config;
 
   /* construct the stops */
-  state->stops = malloc(config->no_stops * sizeof(struct Stop *));
+  state->stops = malloc(config->no_stops * sizeof(struct Stop));
+
   for (i = 0; i < config->no_stops; i++) {
     (state->stops + i)->no = i;
   }
 
   /* construct the buses */
-  state->buses = malloc(config->no_buses * sizeof(struct Bus *));
+  state->buses = malloc(config->no_buses * sizeof(struct Bus));
   for (i = 0; i < config->no_buses; i++) {
     (state->buses + i)->no = i;
 
