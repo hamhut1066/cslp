@@ -121,7 +121,14 @@ void print_bus(struct Bus *bus) {
 }
 
 void print_stop(struct Stop *stop) {
-  printf("Stop: %d\n", stop->no);
+  printf("Stop: %d - [", stop->no);
+
+  int i;
+  for (i = 0; i < stop->adjacent; i++) {
+    printf("(%d -> %d)", (stop->edges +i)->weight, (stop->edges + i)->dest);
+  }
+
+  printf("]\n");
 }
 void print_state(struct State *state) {
   printf("No: %d - ", state->no);
