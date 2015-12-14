@@ -4,10 +4,29 @@
  * This file encodes the possible states
  * each state will share some attributes,
  * such that they can be treated similarly in several contexts.
+ *
+ * each stop will have an array of every stop that branches from it, and the weight associated with it.
  */
 struct Stop {
   /* stop no */
   int no;
+
+  int adjacent; /* the no. of edges leaving this node */
+  struct StopEdge *edges; /* the edges that exit this node */
+};
+
+/*
+ * this is a wrapper around a stop.
+ * it contains the weight from the current stop to the next stop, and a reference to the next stop.
+ */
+struct StopEdge {
+  int weight; /* weight of stop */
+
+  /* moved to ints because memory management is being a pain */
+  int source;
+  int dest;
+  /* struct Stop *source; */
+  /* struct Stop *dest; */
 };
 
 
@@ -47,12 +66,6 @@ struct PassengerEmbarkEvent {};
 #define BUS_ARRIVAL_EVENT            4
 #define BUS_DEPARTURE_EVENT          5
 
-struct StopEdge {
-  int time;
-  struct Stop source;
-  struct Stop dest;
-};
-
 struct User {
   /* implement as a singly linked list?... */
 };
@@ -65,10 +78,6 @@ struct Bus {
   /* location that the bus will be at */
   struct Stop *destination;
 };
-struct ServiceNetwork {
-  struct Stop *stops; /* list of all available stops */
-  struct StopEdge **routes;
-}; // This needs to be thought about...
 
 /*
  * Configuration Object
@@ -109,7 +118,6 @@ struct State {
   struct Stop *stops;
   struct User *users;
   struct Bus *buses;
-  struct ServiceNetwork network;
 
   /* event that occurs at this state */
   int event;
@@ -150,5 +158,6 @@ void destroy_config(struct Config *config);
 
 void print_config(struct Config *config);
 void print_state(struct State *state);
+void print_stop(struct Stop *stop);
 
 #endif
