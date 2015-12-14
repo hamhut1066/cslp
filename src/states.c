@@ -114,14 +114,6 @@ struct Stats *new_stats() {
   return stats;
 }
 
-/*
- * Sets the initial state of the program
- * The state is built from the passed in config file.
- */
-void set_initial_state(struct State *state, struct Config *config) {
-  /* assign the config so that it is accessible from State. */
-  state->config = config;
-}
 
 void print_bus(struct Bus *bus) {
   printf("Bus: %d at ", bus->no);
@@ -154,7 +146,8 @@ struct State *get_state(struct Config *config) {
   struct State *state;
 
   state = get_initial_state();
-  set_initial_state(state, config);
+  /* a reference to the config struct is kept accessible in each state for simplicity. */
+  state->config = config;
 
   /* construct the stops */
   state->stops = malloc(config->no_stops * sizeof(struct Stop *));
