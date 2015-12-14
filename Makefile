@@ -1,16 +1,16 @@
 SRC=./src
 TEST=./test/
 
-all:
-	$(MAKE) -C $(SRC)
+all: deps
+	@$(MAKE) -C $(SRC)
 
 tests:
 
 r: all
-	./bin/cslp
+	./bin/cslp ./test/fs/input.in
 
-t:
-	$(MAKE) -C $(TEST)
+t: deps
+	@$(MAKE) -C $(TEST)
 
 tt: t
 	./bin/cslp-test
@@ -19,6 +19,9 @@ val:
 	valgrind ./bin/cslp-test
 
 build: all test
+
+deps:
+	@mkdir -p bin
 
 clean:
 	$(MAKE) -C $(SRC) clean

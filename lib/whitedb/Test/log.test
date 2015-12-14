@@ -1,6 +1,0 @@
-#!/bin/sh
-
-Main/selftest log
-ERR=$?
-exit ${ERR}
-

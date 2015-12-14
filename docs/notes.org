@@ -1,0 +1,52 @@
+* Allowed States
+These are the allowed states that can be captured and need to be checked for
+
+** Arrival of New Customer ( with request in the system)
+Each arrival request can be considered an _independant_ event.  
+Look into this more when it becomes more relevant
+** Departure of Bus from location
+** Arrival of Bus at Stop
+** Disembarkation of a passenger ( constant time to unload each passenger? )
+** Boarding of a passenger
+
+
+* The Network
+The network is being implemented as a Single, Directed Graph.
+It is described as the vertices being the bus stops,
+with the edges being the travel time (in minutes) between those edges.
+
+** Thoughts about implementation
+Worth having a look into Dijkstra's Algorithm for this problem.
+(Is there a max runtime for this project? or can optimisation occur?)
+- If time, possibly look into multi-threading for path-finding...
+
+* Entities
+** Bus
+The buses will need to know the following of themselves:
+- current location
+- target destination
+- passengers
+
+** Stop
+This may need to be modelled with an edge with a source and destination.
+
+
+#+BEGIN_SRC C
+struct StopEdge {
+ int time;
+ struct Stop source;
+ struct Stop dest;
+};
+#+END_SRC
+
+#+BEGIN_SRC C
+struct Stop {
+ /* optional x and y */
+ int x;
+ int y;
+};
+#+END_SRC
+
+Stop needs the following information:
+- linked stops (to)
+- time to each linked stop
