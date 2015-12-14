@@ -44,6 +44,9 @@ void initial_iteration_test(CuTest *tc) {
     CuAssertIntEquals(tc, i, (state->stops + i)->no);
   }
 
+  /* test stop edges */
+  CuAssertIntEquals(tc, 2, state->stops->adjacent);
+  CuAssertIntEquals(tc, 3, state->stops->edges->weight);
 }
 
 
