@@ -1,4 +1,3 @@
-sudo: required
 script: make tt
 language: c
 dist: trusty
