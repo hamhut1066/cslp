@@ -11,7 +11,7 @@ void usage() {
 
 int main(int argc, char *argv[]) {
   struct State *state;
-  struct Stats *stats;
+  // struct Stats *stats;
   struct Config config;
 
   if (argc < 2) {
@@ -24,7 +24,8 @@ int main(int argc, char *argv[]) {
   state = get_state(&config);
 
 
-  stats = run_experiment(state);
+  // stats = run_experiment(state);
+  run_experiment(state);
 
   /* Cleanup of assigned variables */
   /* wg_delete_local_database(db); */
