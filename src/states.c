@@ -121,7 +121,7 @@ void print_bus(struct Bus *bus) {
 }
 
 void print_stop(struct Stop *stop) {
-  printf("Stop: %d - [", stop->no);
+  printf("Stop: %d - (%d)[", stop->no, stop->adjacent);
 
   int i;
   for (i = 0; i < stop->adjacent; i++) {
@@ -161,12 +161,15 @@ struct State *get_state(struct Config *config) {
   state->stops = malloc(config->no_stops * sizeof(struct Stop));
 
   for (i = 0; i < config->no_stops; i++) {
-    (state->stops + i)->no = i;
+    struct Stop *stop = malloc(sizeof(struct Stop));
+    stop->no = i;
+    stop->adjacent = 0;
     /* TODO: think of a more memory-efficient away to do this.
      *
      * This is blatatantly wasting memory, but it guarantees that there won't be a buffer overflow.
      */
-    (state->stops + i)->edges = malloc(config->no_stops * sizeof(struct StopEdge));
+    stop->edges = malloc(config->no_stops * sizeof(struct StopEdge));
+    state->stops[i] = *stop;
   }
 
   /* construct the nodes */
@@ -175,23 +178,27 @@ struct State *get_state(struct Config *config) {
     for (j = 0; j < config->no_stops; j++) {
       int weight = config->map[i][j];
       if (weight != -1 && weight != 0) {
-        int index = (state->stops + i)->adjacent;
-        // ((state->stops + i)->edges + j)->source = malloc(sizeof(struct Stop *));
-        // ((state->stops + i)->edges + j)->dest = malloc(sizeof(struct Stop *));
+        struct StopEdge *edge = malloc(sizeof(struct StopEdge));
+        int index = state->stops[i].adjacent;
 
-        ((state->stops + i)->edges + index)->weight = weight;
+
+
+        /* assign things */
+        edge->weight = weight;
 
         /* why aren't these working?!!!! */
         // ((state->stops + i)->edges + j)->source = (state->stops + i);
         // ((state->stops + i)->edges + j)->dest = (state->stops + j);
 
-        ((state->stops + i)->edges + index)->source = i;
-        ((state->stops + i)->edges + index)->dest = j;
+        edge->source = i;
+        edge->dest = j;
 
         (state->stops + i)->adjacent++;
+
+        /* assign new struct into state */
+        (state->stops + i)->edges[index] = *edge;
       }
     }
-
   }
 
   /* construct the buses */
