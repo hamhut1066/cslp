@@ -1,5 +1,12 @@
 # Computer Science Large Practical
 
+# Note on Testing/Running
+
+you will need to run a `make clean` between running tests and running the program (or vise-versa).
+This is because the (intermediate) object files compile to a slightly different version as they have different flags set.
+
+I have done this so that the event  stream isn't printed in testing. I'm generally doing unit testing, and don't want to see the event stream while trying to write/debug unit-tests.
+
 # Included Libraries
 ## CuTest
 http://cutest.sourceforge.net/
