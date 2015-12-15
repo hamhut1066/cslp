@@ -3,3 +3,4 @@ TAGS
 bin/*
 scratch
 .projectile
+.syntastic_c_config
