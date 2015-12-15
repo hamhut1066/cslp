@@ -47,6 +47,11 @@ char *format_time(int time) {
 
 void output_state(struct State *state) {
   /* initial state does not have an event attached */
+
+#ifdef DEBUG
+  return;
+#endif
+
   if (state->no != 0) {
     printf("%s -> ", format_time(state->time));
 
