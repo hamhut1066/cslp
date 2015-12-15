@@ -16,7 +16,7 @@ EXECUTABLE=../bin/cslp-test
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -lm -o $@
+	$(CC) -D DEBUG=True $(LDFLAGS) $(OBJECTS) -lm -o $@
 
 .c.o:
 	CPATH=$(CPATH) $(CC) $(CFLAGS) $< -o $@
