@@ -224,3 +224,56 @@ struct State *next_state(struct State *old_state) {
   state->time = old_state->time;
   return state;
 }
+
+
+
+/* IList Methods */
+
+/*
+ * Adds an element to the list
+ */
+void ilist_add(struct IList *list, int value) {
+  if (list->length == 0) {
+    list->value = value;
+    list->length++;
+  } else {
+    struct IList *next = malloc(sizeof(struct IList));
+
+    next->value = value;
+
+
+    list->next = next;
+
+    list->length++;
+  }
+}
+
+/*
+ * checks whether the element is contained within the list.
+ *
+ * returns 1 for true, 0 otherwise
+ */
+int ilist_contains(struct IList *list, int value) {
+  struct IList *element = list;
+  int i;
+
+  for (i = 0; i < list->length; i++) {
+    if (element->value == value) {
+      return 1;
+    }
+
+    element = element->next;
+  }
+
+  return 0;
+}
+
+void free_ilist(struct IList *list) {
+  struct IList *iterator = list;
+  int i;
+
+  for (i = 0; i < list->length - 1; i++) {
+    free(iterator);
+    iterator = list->next;
+  }
+}
