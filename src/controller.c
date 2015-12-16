@@ -114,12 +114,33 @@ int min_vertex(int *vertex, int *dist, int length) {
 }
 
 /*
+  * Checks whether two stops are adjacent
+  *
+  * Returns -1 on failure
+  */
+int stop_adjacent(struct State *state, int source, int dest) {
+  if (source == dest) return -1;
+
+  int adjacent = state->stops[source].adjacent;
+  struct Stop *stop = &state->stops[source];
+  int i;
+
+ for (i = 0; i < adjacent; i++) {
+   if (stop->edges[i].dest == dest) {
+     return i;
+   }
+ }
+
+ return -1;
+}
+
+/*
  * Find the Shortest route from one location to another.
  */
 struct Route *shortest_route(struct State *state, int source, int destination) {
   int no_stops = state->config->no_stops;
   int *vertex = malloc(no_stops * sizeof(int));
-  int i;
+  int i, j;
 
   int *dist = malloc(no_stops * sizeof(int));
   int *prev = malloc(no_stops * sizeof(int));
@@ -139,10 +160,21 @@ struct Route *shortest_route(struct State *state, int source, int destination) {
   while (vertex_empty(vertex, no_stops)) {
     // int stop = 0; /* vertex with min dist from list of distances */
     int stop_id = min_vertex(vertex, dist, no_stops);
-    // int stop = vertex[stop_id];
-
+    int stop = vertex[stop_id];
     vertex[stop_id] = 0;
-    
+
+    for (j = 0; j < no_stops; j++) {
+      /* only stops that are adjacent to current stop */
+      int edge_id = stop_adjacent(state, stop, j);
+      if (j != stop_id && edge_id >= 0) {
+        int alt = dist[stop_id] + state->stops[stop_id].edges[edge_id].weight;
+
+        if (alt < dist[stop_id]) {
+          dist[j] = alt;
+          prev[j] = stop_id;
+        }
+      }
+    }
   }
 
   return NULL;
