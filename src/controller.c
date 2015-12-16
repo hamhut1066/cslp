@@ -5,6 +5,7 @@
 #include <math.h>
 #include <time.h>
 #include <stdio.h>
+#include <limits.h>
 
 #define DAY_SECS 86400
 #define HOUR_SECS 3600
@@ -78,6 +79,97 @@ void output_state(struct State *state) {
   }
 }
 
+#define UNDEFINED -2
+int vertex_empty(int *vertex, int length) {
+  int i = 0;
+
+  while (i < length) {
+    if (vertex[i] == 1) {
+      return 1;
+    }
+    i++;
+  }
+
+  return 0;
+}
+
+/*
+  * returns the index of the minimum vertex.
+  */
+int min_vertex(int *vertex, int *dist, int length) {
+  int i;
+  int min = -1;
+  int min_vertex = -1;
+
+  for (i = 0; i < length; i++) {
+    if (vertex[i] == 1) { /* vertex is in the set */
+        if (min == -1 || dist[i] < min) {
+        min_vertex = i;
+        min = dist[i];
+      }
+    }
+  }
+
+  return min_vertex;
+}
+
+/*
+ * Find the Shortest route from one location to another.
+ */
+struct Route *shortest_route(struct State *state, int source, int destination) {
+  int no_stops = state->config->no_stops;
+  int *vertex = malloc(no_stops * sizeof(int));
+  int i;
+
+  int *dist = malloc(no_stops * sizeof(int));
+  int *prev = malloc(no_stops * sizeof(int));
+  /* init vertex 'set' */
+  for (i = 0; i < no_stops; i++) {
+    vertex[i] = -1;
+  }
+
+  for (i = 0; i < state->config->no_stops; i++) {
+    dist[i] = INT_MAX;
+    prev[i] = UNDEFINED;
+    vertex[i] = 1;
+  }
+
+  dist[source] = 0;
+
+  while (vertex_empty(vertex, no_stops)) {
+    // int stop = 0; /* vertex with min dist from list of distances */
+    int stop_id = min_vertex(vertex, dist, no_stops);
+    // int stop = vertex[stop_id];
+
+    vertex[stop_id] = 0;
+    
+  }
+
+  return NULL;
+}
+/*
+ * This method iterates through all the buses, and chooses the closest bus to the passenger, and the travel time.
+ */
+void passenger_find_shortest_route(struct State *state) {
+  int i,j;
+  // struct Stop *p_departure = state->passenger_subscription_event->departure;
+
+
+  /* loop through buses to find the closest bus */
+  for (i = 0; i < state->config->no_buses; i++) {
+    // struct Bus *bus = state->buses + i;
+
+    /* the location of the bus in my walk */
+    // int walk_location = bus->location;
+    /* TODO: probably need to setup a costing thing here... */
+
+    /* walk along a possible path while seeing the expense of it */
+    j = 0;
+
+    /* do some magic here to save the minimum route */
+  }
+}
+
 
 /*
  * gets the next passenger subscription state
@@ -109,9 +201,11 @@ struct State *next_passenger_state(struct State *old_state) {
     state->passenger_subscription_event->depart_at = state->time + depart_time;
 
     /* set this to the same time as the default */
-    state->passenger_subscription_event->scheduled_at = state->passenger_subscription_event->depart_at;
+    // state->passenger_subscription_event->scheduled_at = state->passenger_subscription_event->depart_at;
   }
 
+  /* choose a bus to pick up the current passenger */
+  passenger_find_shortest_route(state);
   return state;
 }
 
