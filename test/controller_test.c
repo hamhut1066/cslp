@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #include "cutest/CuTest.h"
 
@@ -92,11 +93,41 @@ void test_format_time(CuTest *tc) {
   CuAssertStrEquals(tc, "00:00:01:01", format_time(61));
 }
 
+void test_shortest_route(CuTest *tc) {
+  struct State *state = test_state();
+
+  shortest_route(state, 0, 4);
+}
+
+void test_min_vertex(CuTest *tc) {
+  int length = 10;
+  int *vertex = malloc(length * sizeof(int));
+  int *dist = malloc(length * sizeof(int));
+
+  for (int i = 0; i < length; i++) {
+    vertex[i] = 1;
+    dist[i] = INT_MAX;
+  }
+
+  dist[0] = 0;
+
+  CuAssertIntEquals(tc, 0, min_vertex(vertex, dist, length));
+
+  vertex[0] = 0;
+  CuAssertIntEquals(tc, 1, min_vertex(vertex, dist, length));
+
+  vertex[1] = 0;
+  dist[3] = 12;
+  CuAssertIntEquals(tc, 3, min_vertex(vertex, dist, length));
+}
+
 CuSuite* ControllerGetSuite(void) {
   CuSuite* suite = CuSuiteNew();
   SUITE_ADD_TEST(suite, initial_iteration_test);
   SUITE_ADD_TEST(suite, end_of_experiment_test);
   SUITE_ADD_TEST(suite, tick_increments_state);
   SUITE_ADD_TEST(suite, test_format_time);
+  SUITE_ADD_TEST(suite, test_shortest_route);
+  SUITE_ADD_TEST(suite, test_min_vertex);
   return suite;
 }
