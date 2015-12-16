@@ -151,7 +151,7 @@ struct Route *shortest_route(struct State *state, int source, int destination) {
  * This method iterates through all the buses, and chooses the closest bus to the passenger, and the travel time.
  */
 void passenger_find_shortest_route(struct State *state) {
-  int i,j;
+  int i;
   // struct Stop *p_departure = state->passenger_subscription_event->departure;
 
 
@@ -164,7 +164,6 @@ void passenger_find_shortest_route(struct State *state) {
     /* TODO: probably need to setup a costing thing here... */
 
     /* walk along a possible path while seeing the expense of it */
-    j = 0;
 
     /* do some magic here to save the minimum route */
   }
