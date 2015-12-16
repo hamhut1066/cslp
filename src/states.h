@@ -29,6 +29,33 @@ struct StopEdge {
   /* struct Stop *dest; */
 };
 
+/*
+ * This constructs a route that can be replayed to move a bus between two points.
+ *
+ * IDEA: attach a route to a bus, giving a considerably faster way of checking for a cheap pickup...
+ */
+struct Route {
+
+  /* the length of the route (to keep track of the array length) */
+  int length;
+
+  /* the path that can be taken */
+  struct StopEdge *path;
+};
+
+/*
+ * a linked list of integer values;
+ */
+struct IList {
+  int value;
+  int length;
+
+  struct IList *next;
+};
+
+void ilist_add(struct IList *list, int value);
+int ilist_contains(struct IList *list, int value);
+void free_ilist(struct IList *list);
 
 /*
  * passenger subscribes for a pickup.
@@ -72,6 +99,11 @@ struct User {
 struct Bus {
   /* This will need to have a link to the current stop,*/
   int no;
+
+  /* no. of passengers on the bus */
+  int carrying;
+
+  /* TODO: think about adding the passengers to the buses */
 
   /* current location of the bus */
   struct Stop *location;
