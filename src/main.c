@@ -32,3 +32,4 @@ int main(int argc, char *argv[]) {
   destroy_config(&config);
   return 0;
 }
+/* hamish was here */

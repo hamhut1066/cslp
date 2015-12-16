@@ -121,6 +121,7 @@ void print_bus(struct Bus *bus) {
 }
 
 void print_stop(struct Stop *stop) {
+  printf("%p\n", stop);
   printf("Stop: %d - (%d)[", stop->no, stop->adjacent);
 
   int i;
@@ -222,6 +223,9 @@ struct State *next_state(struct State *old_state) {
   state->no = old_state->no + 1;
   state->config = old_state->config;
   state->time = old_state->time;
+
+  state->buses = old_state->buses;
+  state->stops = old_state->stops;
   return state;
 }
 

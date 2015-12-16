@@ -39,6 +39,7 @@ struct Route {
   /* the length of the route (to keep track of the array length) */
   int length;
 
+  int weight; /* current weight of this route. */
   /* the path that can be taken */
   struct StopEdge *path;
 };
