@@ -6,6 +6,7 @@
 #include "cutest/CuTest.h"
 
 #include "../src/read_file.h"
+#include "../src/states.h"
 
 #define SAMPLE_INPUT "./test/fs/input.in"
 #define BAD_INPUT  "./test/fs/bad_config_file.in"
@@ -46,10 +47,33 @@ void parse_bad_config_test(CuTest *tc) {
   destroy_config(config);
 }
 
+void test_ilist(CuTest *tc) {
+  struct IList *list = malloc(sizeof(struct IList));
+  list->length = 0;
+
+  ilist_add(list, 3);
+
+  CuAssertIntEquals(tc, 3, list->value);
+  CuAssertIntEquals(tc, 1, list->length);
+
+  ilist_add(list, 4);
+
+  CuAssertIntEquals(tc, 3, list->value);
+  CuAssertIntEquals(tc, 4, list->next->value);
+  CuAssertIntEquals(tc, 2, list->length);
+
+  CuAssertIntEquals(tc, 1, ilist_contains(list, 3));
+  CuAssertIntEquals(tc, 0, ilist_contains(list, 5));
+
+
+  free_ilist(list);
+}
+
 
 CuSuite* ReadFileGetSuite() {
   CuSuite* suite = CuSuiteNew();
   SUITE_ADD_TEST(suite, parse_config_test);
   SUITE_ADD_TEST(suite, parse_bad_config_test);
+  SUITE_ADD_TEST(suite, test_ilist);
   return suite;
 }
