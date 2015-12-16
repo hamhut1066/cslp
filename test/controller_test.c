@@ -121,6 +121,17 @@ void test_min_vertex(CuTest *tc) {
   CuAssertIntEquals(tc, 3, min_vertex(vertex, dist, length));
 }
 
+void test_stop_adjacent(CuTest *tc) {
+  struct State *state = test_state();
+
+  printf("Starting\n");
+  /* the same stop cannot be adjacent to itself */
+  CuAssertIntEquals(tc, -1, stop_adjacent(state, 0, 0));
+  CuAssertIntEquals(tc, 0, stop_adjacent(state, 0, 1));
+  CuAssertIntEquals(tc, -1, stop_adjacent(state, 2, 0));
+  CuAssertIntEquals(tc, 1, stop_adjacent(state, 0, 5));
+}
+
 CuSuite* ControllerGetSuite(void) {
   CuSuite* suite = CuSuiteNew();
   SUITE_ADD_TEST(suite, initial_iteration_test);
@@ -129,5 +140,6 @@ CuSuite* ControllerGetSuite(void) {
   SUITE_ADD_TEST(suite, test_format_time);
   SUITE_ADD_TEST(suite, test_shortest_route);
   SUITE_ADD_TEST(suite, test_min_vertex);
+  SUITE_ADD_TEST(suite, test_stop_adjacent);
   return suite;
 }
