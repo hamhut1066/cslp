@@ -7,7 +7,7 @@ all: deps
 tests:
 
 r: all
-	./bin/cslp ./test/fs/input.in
+	./bin/cslp ./test/fs/short.in
 
 t: deps
 	@$(MAKE) -C $(TEST)
