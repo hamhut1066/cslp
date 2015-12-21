@@ -23,6 +23,9 @@ build: all test
 deps:
 	@mkdir -p bin
 
+docs:
+	pandoc -V title="CSLP Project" -V author="Hamish Hutchings" -V date=`date +%d/%m/%Y` ./doc/report.md -o ./doc/report.pdf
+
 clean:
 	$(MAKE) -C $(SRC) clean
 	$(MAKE) -C $(TEST) clean
