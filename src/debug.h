@@ -9,6 +9,9 @@
 #define DEBUG_PRINT(x) do {} while (0)
 #endif
 
+/*
+ * useful in debugging, but otherwise not really used. (same with the above macros)
+ */
 void print_mem(void const *vp, size_t n)
 {
   unsigned char const *p = vp;

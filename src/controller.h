@@ -3,6 +3,7 @@
 
 #include "states.h"
 
+/* only this is needed for running the experiment */
 struct Stats *run_experiment(struct State *state);
 
 /* exports for testing only */

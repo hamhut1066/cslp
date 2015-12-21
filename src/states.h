@@ -78,6 +78,11 @@ struct PassengerSubscriptionEvent {
   int scheduled_at;
 };
 
+/*
+ * these are the other possible events that could occur.
+ *
+ * (not implemented...)
+ */
 struct BusDepartureEvent {};
 struct BusArrivalEvent {};
 struct PassengerDisembarkEvent {};

@@ -5,10 +5,18 @@
 #include "controller.h"
 #include "output.h"
 
+/*
+ * print usage of project.
+ */
 void usage() {
   printf("Usage: cslp [filename]\n");
 }
 
+/*
+ * define some application variables, initialise them and execute the experiment.
+ *
+ * This is the main method of the application.
+ */
 int main(int argc, char *argv[]) {
   struct State *state;
   // struct Stats *stats;

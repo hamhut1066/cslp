@@ -7,6 +7,10 @@
 
 #include "read_file.h"
 
+/*
+ * take in the config file and a config struct.
+ * constructs the config struct from the contents of the file.
+ */
 void read_config_file(struct Config *cfg, char* filename) {
   FILE *pFile;
   char mystring [100];
@@ -21,6 +25,8 @@ void read_config_file(struct Config *cfg, char* filename) {
     while (fgets(mystring, 100, pFile) != NULL) {
       sscanf(mystring, "%s %d", key, &value);
       if (strncmp(key, "#", 1) == 0) {}
+
+      /* map is being processed, assume file is formatted correctly. */
       else if (processing_map) {
         /* Processes the map, needs to implement one line at a time */
         int *map = malloc(cfg->no_stops * sizeof(int));

@@ -12,6 +12,9 @@
 #define MIN_SECS 60
 #define TIME_SIZE 12
 
+/*
+ * generating uniformly distributed events
+ */
 double uniform_deviate (int seed) {
   return seed * (1.0 / (RAND_MAX + 1.0));
 }
@@ -46,6 +49,12 @@ char *format_time(int time) {
   return formatted_time;
 }
 
+/*
+ * outputs the state to stdout.
+ * if running in test-mode, then this outputs nothing.
+ * The decision to do this is so that testing can be kept clean,
+ * and all error-messages can be seen clearly.
+ */
 void output_state(struct State *state) {
   /* initial state does not have an event attached */
 
@@ -56,7 +65,10 @@ void output_state(struct State *state) {
   if (state->no != 0) {
     printf("%s -> ", format_time(state->time));
 
-    /* switch to print out the correct event type */
+    /*
+     * This switch statement is an easy way to print out values depending on the state-type.
+     * the nature of 'immutable' states guarantees that no information will be lost with multiple types.
+     */
     switch (state->event) {
     case PASSENGER_SUBSCRIPTION_EVENT:
       printf("new request placed from stop %d to stop %d for departure at %s scheduled for %s",
@@ -79,6 +91,9 @@ void output_state(struct State *state) {
   }
 }
 
+/*
+ * helper function to check whether a vertex is empty or not
+ */
 #define UNDEFINED -2
 int vertex_empty(int *vertex, int length) {
   int i = 0;
@@ -94,8 +109,8 @@ int vertex_empty(int *vertex, int length) {
 }
 
 /*
-  * returns the index of the minimum vertex.
-  */
+ * returns the index of the minimum vertex.
+ */
 int min_vertex(int *vertex, int *dist, int length) {
   int i;
   int min = -1;
@@ -103,7 +118,7 @@ int min_vertex(int *vertex, int *dist, int length) {
 
   for (i = 0; i < length; i++) {
     if (vertex[i] == 1) { /* vertex is in the set */
-        if (min == -1 || dist[i] < min) {
+      if (min == -1 || dist[i] < min) {
         min_vertex = i;
         min = dist[i];
       }
@@ -114,10 +129,10 @@ int min_vertex(int *vertex, int *dist, int length) {
 }
 
 /*
-  * Checks whether two stops are adjacent
-  *
-  * Returns -1 on failure
-  */
+ * Checks whether two stops are adjacent
+ *
+ * Returns -1 on failure
+ */
 int stop_adjacent(struct State *state, int source, int dest) {
   if (source == dest) return -1;
 
@@ -125,17 +140,19 @@ int stop_adjacent(struct State *state, int source, int dest) {
   struct Stop *stop = &state->stops[source];
   int i;
 
- for (i = 0; i < adjacent; i++) {
-   if (stop->edges[i].dest == dest) {
-     return i;
-   }
- }
+  for (i = 0; i < adjacent; i++) {
+    if (stop->edges[i].dest == dest) {
+      return i;
+    }
+  }
 
- return -1;
+  return -1;
 }
 
 /*
  * Find the Shortest route from one location to another.
+ *
+ * (not fully implemented...)
  */
 struct Route *shortest_route(struct State *state, int source, int destination) {
   int no_stops = state->config->no_stops;
@@ -179,8 +196,12 @@ struct Route *shortest_route(struct State *state, int source, int destination) {
 
   return NULL;
 }
+
 /*
- * This method iterates through all the buses, and chooses the closest bus to the passenger, and the travel time.
+ * This method iterates through all the buses,
+ * and chooses the closest bus to the passenger, and the travel time.
+ *
+ * (not fully implemented...)
  */
 void passenger_find_shortest_route(struct State *state) {
   int i;
@@ -221,18 +242,19 @@ struct State *next_passenger_state(struct State *old_state) {
   /* get wait time for passenger */
   {
     r = random_value(request_rate, 0);
-    // int next_passenger = (int) (-log(r) * state->config->request_rate);
     int next_passenger = r;
     state->time = old_state->time + next_passenger;
   }
   r = random_value(request_rate, 0);
   {
-    // int depart_time = (int) (-log(r) * state->config->request_rate);
     int depart_time = r;
     state->passenger_subscription_event->depart_at = state->time + depart_time;
 
-    /* set this to the same time as the default */
-    // state->passenger_subscription_event->scheduled_at = state->passenger_subscription_event->depart_at;
+    /*
+     * set this to the same time as the default
+     * this will be set to the calculated estimated arrival time for pickup.
+     */
+    state->passenger_subscription_event->scheduled_at = state->passenger_subscription_event->depart_at;
   }
 
   /* choose a bus to pick up the current passenger */
@@ -254,6 +276,9 @@ struct State *create_new_state(struct State *old_state) {
 }
 /*
  * This method performs one tick, and returns the new state.
+ *
+ * The purpose of this method is to not mutate the passed in state,
+ * but instead return a new state with a reference to the previous state.
  */
 struct State *tick(struct State *state) {
   state = create_new_state(state);
@@ -262,6 +287,9 @@ struct State *tick(struct State *state) {
 
 /*
  * This method sets up some basic things, then gets to work on the problem.
+ *
+ * this is the working method. it sets up anything relevant to running the experiment,
+ * then runs the experiment until the defined finish.
  */
 struct Stats *run_experiment(struct State *state) {
   struct Stats *stats = new_stats();

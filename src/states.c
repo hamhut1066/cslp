@@ -2,10 +2,10 @@
 
 #include "states.h"
 #include "debug.h"
+
 /*
  * Handles all state related things
  */
-
 struct State *get_initial_state() {
   struct State *state = malloc(sizeof(struct State));
   if (state == NULL) {
@@ -24,6 +24,9 @@ struct State *get_initial_state() {
   return state;
 }
 
+/*
+ * handles generating an empty config struct.
+ */
 struct Config *get_initial_config() {
   struct Config *config = malloc(sizeof(struct Config));
   if (config == NULL) {
@@ -39,6 +42,9 @@ struct Config *get_initial_config() {
 }
 
 
+/*
+ * destroy User struct.
+ */
 void destroy_users(struct User *users) {
   if (users != NULL) {
     printf("%p", users);
@@ -48,6 +54,9 @@ void destroy_users(struct User *users) {
   }
 }
 
+/*
+ * destroy Bus struct
+ */
 void destroy_buses(struct Bus *buses) {
   if (buses != NULL) {
     // TODO: figure out how to actually run this for the _actual_ length of the array.
@@ -55,6 +64,9 @@ void destroy_buses(struct Bus *buses) {
   }
 }
 
+/*
+ * destroy int map
+ */
 void destroy_network(int **map, int dim) {
   int i;
   for(i = 0; i < dim; i++) {
@@ -62,12 +74,19 @@ void destroy_network(int **map, int dim) {
   }
   free(map);
 }
+
+/*
+ * destroy Config struct.
+ */
 void destroy_config(struct Config *conf) {
   if (conf != NULL) {
     destroy_network(conf->map, conf->no_stops);
   }
 }
 
+/*
+ * destroy State struct.
+ */
 void destroy_state(struct State *state) {
   if (state != NULL) {
     destroy_users(state->users);
@@ -75,12 +94,18 @@ void destroy_state(struct State *state) {
   }
 }
 
+/*
+ * destroy Stats struct.
+ */
 void destroy_stats(struct Stats *stats) {
   if (stats != NULL) {
     destroy_state(stats->state);
   }
 }
 
+/*
+ * print the config file.
+ */
 void print_config(struct Config *config) {
   printf("{busCapacity: %d, boardingTime: %d, requestRate: %f, pickupInterval: %f, maxDelay: %d, noBuses: %d, noStops: %d, stopTime: %d}\n",
          config->bus_capacity,
@@ -108,18 +133,26 @@ void print_config(struct Config *config) {
   }
 }
 
+/*
+ * create a new Stats struct.
+ */
 struct Stats *new_stats() {
   struct Stats *stats = malloc(sizeof(struct Stats));
 
   return stats;
 }
 
-
+/*
+ * print Bus
+ */
 void print_bus(struct Bus *bus) {
   printf("Bus: %d at ", bus->no);
   printf("(%d -> %d)\n", bus->location->no, bus->destination->no);
 }
 
+/*
+ * print Stop
+ */
 void print_stop(struct Stop *stop) {
   printf("%p\n", stop);
   printf("Stop: %d - (%d)[", stop->no, stop->adjacent);
@@ -131,6 +164,10 @@ void print_stop(struct Stop *stop) {
 
   printf("]\n");
 }
+
+/*
+ * print State
+ */
 void print_state(struct State *state) {
   printf("No: %d - ", state->no);
   printf("Time: %d\n", state->time);
@@ -215,6 +252,9 @@ struct State *get_state(struct Config *config) {
   return state;
 }
 
+/*
+ * constructs the next_state, setting the default values and linking up references
+ */
 struct State *next_state(struct State *old_state) {
 
   struct State *state = get_initial_state();
@@ -272,6 +312,9 @@ int ilist_contains(struct IList *list, int value) {
   return 0;
 }
 
+/*
+ * free's IList
+ */
 void free_ilist(struct IList *list) {
   struct IList *iterator = list;
   int i;
