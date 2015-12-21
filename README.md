@@ -7,6 +7,11 @@ This is because the (intermediate) object files compile to a slightly different 
 
 I have done this so that the event  stream isn't printed in testing. I'm generally doing unit testing, and don't want to see the event stream while trying to write/debug unit-tests.
 
+running in done through calling ./cslp [input-file]
+if run without an argument, it will run _./test/fs/input.in_, otherwise it will run the input file. 
+
+the ./cslp file is actually a bash file that calls the executable living in _./bin/_.
+
 # Included Libraries
 ## CuTest
 http://cutest.sourceforge.net/
