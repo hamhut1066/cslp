@@ -11,14 +11,20 @@
 #define SAMPLE_INPUT "./test/fs/input.in"
 #define BAD_INPUT  "./test/fs/bad_config_file.in"
 
- struct Config *test_config(char *file) {
-   struct Config *config = get_initial_config();
+/*
+ * constructs a test config file.
+ */
+struct Config *test_config(char *file) {
+  struct Config *config = get_initial_config();
 
   read_config_file(config, file);
 
   return config;
 }
 
+/*
+ * test the config file is properly configured.
+ */
 void parse_config_test(CuTest *tc) {
   struct Config *config = test_config(SAMPLE_INPUT);
 
@@ -33,6 +39,9 @@ void parse_config_test(CuTest *tc) {
 
 }
 
+/*
+ * test parsing an incorrect config file
+ */
 void parse_bad_config_test(CuTest *tc) {
   struct Config *config = test_config(BAD_INPUT);
 
@@ -47,6 +56,9 @@ void parse_bad_config_test(CuTest *tc) {
   destroy_config(config);
 }
 
+/*
+ * test an integer linked-list.
+ */
 void test_ilist(CuTest *tc) {
   struct IList *list = malloc(sizeof(struct IList));
   list->length = 0;
