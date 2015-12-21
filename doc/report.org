@@ -1,0 +1,47 @@
+#+TITLE: CSLP Report
+#+AUTHOR: Hamish Hutchings
+#+OPTIONS: toc:nil num: nil
+
+* Introduction
+The Computer Science Large Practical (/cslp/) task was to define and write a piece of software (in /C/)
+that would perform simulations and experiments on a hypothetical bus simulation network in a city.
+I never managed to get it to completely working state, yet I have documented and explained my decisions
+throughout the process, and will lay out my current working implementation below.
+
+* Continuity Decisions
+When deciding how I would construct the state of my program, I looked into the classical mutating state
+construct. I initially thought that it could be fairly easily modeled using the concept of a single
+State struct that modifies itself on every ~tick~.
+After some thought, I considered a possible modification to the linked list idea.
+I would generate a new state based on the previous state, then hold a reference to the previous state in
+the now current state. This would give one the advantage of every state being accessible, as well as the
+ability to do post-run analysis. Another major advantage would be that I wouldn't have to worry about
+previous states accidentally interfering with current information. As every successive state is explicitly
+created and only explicit copying from the previous state to the current one is allowed.
+Although this is considerably less space-efficient,
+I never came anywhere near any significant amount of memory. Running several times gives us around ~400k bytes
+of memory being allocated.
+One potential problem with the model I decided to implement is that multiple events happening at the same time
+was not supported (A potential solution being to increase granularity of events, or move to continuous time).
+
+* Event states
+After some deliberation, I decided that the best way to manage different events in a non-dynamic language
+was to have some form of 'information' stored in the state that will let me pick the relevant event-struct
+that contains the information required for the event that occurs at this instance.
+I broke down the required events into several structs. The events are listed below:
+
+#+BEGIN_SRC C
+#define NULL_EVENT                   0
+#define PASSENGER_SUBSCRIPTION_EVENT 1
+#define PASSENGER_EMBARK_EVENT       2
+#define PASSENGER_DISEMBARK_EVENT    3
+#define BUS_ARRIVAL_EVENT            4
+#define BUS_DEPARTURE_EVENT          5
+#+END_SRC
+
+you will notice that there is a NULL_EVENT. I included a ~NULL_EVENT~ for non-categorized events.
+There were several other events that needed to be included into this list, namely things such as
+~PASSENGER_BEGIN_DISEMBARK~ and ~PASSENGER_END_DISEMBARK~. These are not events that need outputting to the
+event-stream, but need to be unique and distinguishable. The advantage of having all interactions with 
+modification of state is that the modeling of the system becomes a much easier task,
+(the handling and listing of events).
