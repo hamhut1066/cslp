@@ -27,7 +27,6 @@ This is in the hope that I can have an easily follow-able (singly-linked list).
 ### Stats
 This Struct is passed back to the upper levels, and contains the entire stsate list, and will also contain the experiment information.
 In this way, I can pass in a Stats struct and print out the entire output of the program.
-
 ### Stops
 Having considered several ways of implementing this, I went with a simple struct.
 The contents I defined as having a no. (corresponding to it's position in the map),
@@ -35,6 +34,8 @@ an `adjacency` value, which is simply the number of adjacent stops to the curren
 and an array of `edges`, corresponding to the numbers of the stops that are adjacent to the current stop.
 Initially I had planned on using references to the actual stop structs, but I was getting serious issues with
 persistence of addresses for some reason.
+### IList
+this is simply a linked-list of integers. useful when dealing with graphs that can grow to unknown sizes.
 
 In actuality, the array of `edges` are structs, (`StopEdge`), that contain both a weight, source and destination
 value. the weight being the cost of traveling that edge, and the source and destination values corresponding to
@@ -45,6 +46,7 @@ The solution that I have come up with is a simple 2 method deep iteration loop.
 I will simply call a `run_experiment` method, with an initial state passed in, and it will run the experiment accordingly. (I plan on doing all checks that need to be done beforehand, so that I don't need to deal with anything extraneous during the execution)
 The `run_experiment` method will then loop on a `run_iteration` method, which also takes in a state, chooses relevant actions, and updates the state accordingly. I plan on the state objects becoming a singly linked list, that will let me walk back over my previous states, and extract data that I need.
 
+I decided on using Dijkstra's algorithm for doing optimal path-finding. I had several ideas for refining it to increase efficiency. this included skipping buses that were at maximum capacity, or buses that exceeded the current minimum traveling time of a previous bus.
 # Testing
 I have written some basic testing, that covers the basic parsing of config files with different layouts.
 I elected to exit the program on an invalid config file parse. This does mean that I won't be able to test it.
